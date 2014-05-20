@@ -1,0 +1,24 @@
+h1 {
+  text-align: center;
+}
+
+table {
+  margin-left:  auto;
+  margin-right: auto;
+  border-spacing: 0;
+  border: 3px outset orange;
+  font-size: small;
+}
+
+th, td {
+  border: 1px solid green;
+  padding: 3px;
+  text-align: center;
+}
+
+a.conf {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}

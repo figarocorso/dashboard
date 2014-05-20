@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" type="text/css" href="/static/stats.css">
+</head>
+<body>
+<h1>Jenkins Jobs</h1>
+{% if jerbs %}
+<table>
+<thead>
+  <tr>
+    <th>Component</th>
+    {% for jerb in jerbs %}
+    <th><a href="{{ jerb['url'] }}" target="_blank">{{ jerb['sname'] }}</a></th>
+    {% endfor %}
+  </tr>
+  {% for conf in confs %}
+  <tr>
+</thead>
+<tbody>
+  <td>{{ conf }}</td>
+    {% for jerb in jerbs %}
+      {% if conf in jerb['confs'] %}
+      <td style="background-color: {{ jerb['confs'][conf]['color'] }};"><a class='conf' href="{{ jerb['confs'][conf]['url'] }}" target="_blank">&nbsp;</a></td>
+      {% else %}
+      <td></td>
+      {% endif %}
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+{% endif %}
+<br />
+<p style="font-size: x-small; text-align: right;">Brought to you by <a href="http://jarrpa.net">JARRPA</a>.</p>
+</body>
+</html>
