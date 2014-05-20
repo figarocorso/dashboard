@@ -1,0 +1,3 @@
+python-redmine
+python-jenkins
+flask
