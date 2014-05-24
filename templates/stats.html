@@ -1,38 +1,44 @@
 <!doctype html>
 <html>
 <head>
-<title>Dashboard</title>
-<link rel="stylesheet" type="text/css" href="/static/stats.css">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/static/stats.css">
+    <script type"text/javascript" src="/static/jquery-2.1.1.min.js"></script>
+    <script type"text/javascript" src="/static/common.js"></script>
 </head>
 <body>
-<h1>Jenkins Jobs</h1>
-{% if jerbs %}
-<table>
-<thead>
-  <tr>
-    <th>Component</th>
-    {% for jerb in jerbs %}
-    <th><a href="{{ jerb['url'] }}" target="_blank">{{ jerb['sname'] }}</a></th>
+    <h1>Jenkins Jobs</h1>
+    {% if jobs %}
+    <table>
+    <thead>
+    <tr>
+        <th class='component-name'>Component</th>
+        {% for job in jobs %}
+            <th><a href="{{ job['url'] }}" target="_blank">{{ job['short_name'] }}</a></th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for name, component in components.iteritems() %}
+    {% if 'tr_class' in component %}
+    <tr class="{{ component['tr_class'] }}" onClick="groupFolding('{{ component['name']}}')">
+    {% else %}
+    <tr>
+    {% endif %}
+    <td class='component-name'>{{ component['name'] }}</td>
+        {% for job in jobs %}
+            {% if name in job['components'] %}
+                <td class=" {{ job['components'][name]['td_class'] }}">
+                    <a class='component' href="{{ job['components'][name]['href'] }}" >&nbsp;</a>
+                </td>
+            {% else %}
+                <td>--</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
     {% endfor %}
-  </tr>
-  {% for conf in confs %}
-  <tr>
-</thead>
-<tbody>
-  <td>{{ conf }}</td>
-    {% for jerb in jerbs %}
-      {% if conf in jerb['confs'] %}
-      <td style="background-color: {{ jerb['confs'][conf]['color'] }};"><a class='conf' href="{{ jerb['confs'][conf]['url'] }}" target="_blank">&nbsp;</a></td>
-      {% else %}
-      <td></td>
-      {% endif %}
-    {% endfor %}
-  </tr>
-  {% endfor %}
-</tbody>
-</table>
-{% endif %}
-<br />
-<p style="font-size: x-small; text-align: right;">Brought to you by <a href="http://jarrpa.net">JARRPA</a>.</p>
+    </tbody>
+    </table>
+    {% endif %}
 </body>
 </html>

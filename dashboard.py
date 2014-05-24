@@ -78,7 +78,7 @@ for job in jobs:
             # Create component group entry
             group_name = grouped_component + '_grouped'
             if not grouped_component in groups:
-                groups[group_name] = {'name': group_name, 'href': '#', 'td_class': ''}
+                groups[group_name] = {'name': grouped_component, 'href': '#', 'td_class': ''}
 
             groups[group_name]['td_class'] = logical_color_conjunction(
                                                         groups[group_name]['td_class'],
@@ -87,7 +87,7 @@ for job in jobs:
     for name, group in groups.iteritems():
         job['components'][name] = group
         components[name] = {}
-        components[name][name] = name
+        components[name]['name'] = group['name']
         components[name]['tr_class'] = 'group'
 
     # Sort job components to show them properly
