@@ -2,38 +2,8 @@
 <html>
 {% include 'head.html' %}
 <body>
-    <h1>Jenkins Jobs</h1>
-    {% if jobs %}
-    <table>
-    <thead>
-    <tr>
-        <th class='component-name'>Component</th>
-        {% for job in jobs %}
-            <th><a href="{{ job['url'] }}" target="_blank">{{ job['short_name'] }}</a></th>
-        {% endfor %}
-    </tr>
-    </thead>
-    <tbody>
-    {% for name, component in components.iteritems() %}
-    {% if 'tr_class' in component %}
-    <tr class="{{ component['tr_class'] }}" onClick="groupFolding('{{ component['name']}}')">
-    {% else %}
-    <tr>
-    {% endif %}
-    <td class='component-name'>{{ component['name'] }}</td>
-        {% for job in jobs %}
-            {% if name in job['components'] %}
-                <td class=" {{ job['components'][name]['td_class'] }}">
-                    <a class='component' href="{{ job['components'][name]['href'] }}" >&nbsp;</a>
-                </td>
-            {% else %}
-                <td>--</td>
-            {% endif %}
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
-    {% endif %}
+    <div id="content">
+        {% include 'jenkins-module.html' %}
+    </div> <!-- content -->
 </body>
 </html>

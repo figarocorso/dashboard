@@ -35,11 +35,6 @@ th a:hover, th a:focus {
     color: #222;
 }
 
-
-.component-name {
-    text-align: right;
-}
-
 .red {
     background-color: red;
 }
@@ -58,4 +53,38 @@ th a:hover, th a:focus {
 
 .group {
     cursor: pointer;
+}
+
+.module {
+    background: rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 2px 12px #DDDDDD;
+    border-radius: 6px;
+    padding: 1%;
+    font-size: 16px;
+    font-family: Helvetica;
+}
+
+.module-name {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.clear-left {
+    clear: left;
+}
+
+.separator {
+    height: 10px;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: #666;
+}
+
+a:hover, a:focus {
+    color: #333;
 }

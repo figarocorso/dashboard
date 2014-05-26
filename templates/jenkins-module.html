@@ -1,0 +1,31 @@
+<div id="jenkins" class="module">
+    <div class="module-name">Jenkins jobs</div>
+    <div class="table-header">
+        <div class="component-name">&nbsp;</div>
+        {% for job in jobs %}
+            <div class="component-status"><a href="{{ job['url'] }}" target="_blank">{{ job['short_name'] }}</a></div>
+        {% endfor %}
+        <div class="clear-left"></div>
+    </div> <!-- table-header -->
+    {% for name, component in components.iteritems() %}
+        {% if 'group' == component['type'] %}
+            {% set group = " (group)" %}
+            <div id="{{ name }}"  class="component {{ component['global_class'] }}" onClick="groupFolding('{{ component['name'] }}')">
+        {% else %}
+            {% set group = '' %}
+            <div id="{{ name }}"  class="component {{ component['global_class'] }}" >
+        {% endif %}
+
+        <div class="component-name">{{ component['name'] }}</div>
+        {% for job in jobs %}
+        {% if name in job['components'] %}
+            <div class="component-status {{ job['components'][name]['color'] }}"></div>
+        {% else %}
+            <div class="component-status white"></div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div class="clear-left"></div>
+    {% endfor %}
+</div> <!-- jenkins -->
+

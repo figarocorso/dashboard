@@ -1,0 +1,71 @@
+#jenkins {
+    width: 50%;
+}
+
+.table-header {
+    width: auto;
+}
+
+.component {
+    width: auto;
+    height: 20px;
+    opacity: .6;
+}
+
+.component:hover {
+    opacity: .9;
+    font-weight: bold;
+}
+.component-name {
+    float: left;
+    padding: 0px 10px;
+    width: 240px;
+    height: 100%;
+    text-align: right;
+    opacity: 1 ;
+}
+
+.component-status {
+    float: left;
+    width: 50px;
+    height: 100%;
+    text-align: center;
+}
+
+.red {
+    background: linear-gradient(45deg, #FF0505, #CE0000);
+}
+
+.yellow {
+    background: linear-gradient(45deg, #FAFF05, #D0D300);
+}
+
+.blue {
+    background: linear-gradient(45deg, #1E5799, #7db9e8);
+}
+
+.white {
+    background: linear-gradient(45deg, #EFEFEF, #C4C4C4);
+}
+
+.hide {
+    display: none;
+}
+
+.group {
+    cursor: pointer;
+    background: #EEE;
+}
+
+.not-focus {
+    opacity: .1;
+}
+
+.focus {
+    opacity: .6;
+}
+
+.important {
+    opacity: 1;
+    background: #FFFFCC;
+}

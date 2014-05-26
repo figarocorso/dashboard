@@ -22,7 +22,7 @@ def logical_color_conjunction(color1, color2):
     if (color1 == 'blue' or color2 == 'blue'):
         return 'blue'
 
-    return ''
+    return 'white'
 
 
 #TODO Monolithic!!
@@ -53,8 +53,8 @@ for i in range(len(jobs)):
 
 # Getting component configurations from jobs
 components = {}
-groups = {}
 for job in jobs:
+    groups = {}
     job_raw_components = jenkins.get_job_info(job['name'])["activeConfigurations"]
 
     job['components'] = {}
@@ -67,37 +67,41 @@ for job in jobs:
 
         job['components'][name] = {};
         job['components'][name]['name'] = name;
-        job['components'][name]['td_class'] = raw_component['color']
+        job['components'][name]['color'] = raw_component['color']
         job['components'][name]['href'] = raw_component['url']
 
         # Manage grouped components
         grouped_component = has_to_be_grouped(name, grouped_components)
         if grouped_component:
-            components[name]['tr_class'] = grouped_component + ' hide'
+            components[name]['global_class'] = grouped_component + ' hide grouped'
 
             # Create component group entry
             group_name = grouped_component + '_grouped'
-            if not grouped_component in groups:
-                groups[group_name] = {'name': grouped_component, 'href': '#', 'td_class': ''}
+            if not group_name in groups:
+                groups[group_name] = {'name': grouped_component, 'href': '#', 'color': ''}
 
-            groups[group_name]['td_class'] = logical_color_conjunction(
-                                                        groups[group_name]['td_class'],
+            groups[group_name]['color'] = logical_color_conjunction(
+                                                        groups[group_name]['color'],
                                                         raw_component['color'])
     # Add groups to job components
     for name, group in groups.iteritems():
         job['components'][name] = group
         components[name] = {}
         components[name]['name'] = group['name']
-        components[name]['tr_class'] = 'group'
+        components[name]['global_class'] = 'group'
+        components[name]['type'] = 'group';
 
     # Sort job components to show them properly
     job['components'] = collections.OrderedDict(sorted(job['components'].items()))
 
 components = collections.OrderedDict(sorted(components.items()))
 
-for name, component in components.iteritems():
-    print name
-    print component
+#for name, component in jobs[2]['components'].iteritems():
+#    print name
+#    print component['color']
+#for name, component in components.iteritems():
+#    print name
+#    print component
 
 
 app = Flask(__name__)
