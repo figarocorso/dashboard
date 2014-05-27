@@ -24,6 +24,11 @@ def logical_color_conjunction(color1, color2):
 
     return 'white'
 
+def sorting_modification(value):
+    if ('type' in value[1]) and (value[1]['type'] == 'group'):
+        return value[1]['name']
+
+    return value[0] + "_"
 
 #TODO Monolithic!!
 
@@ -94,15 +99,7 @@ for job in jobs:
     # Sort job components to show them properly
     job['components'] = collections.OrderedDict(sorted(job['components'].items()))
 
-components = collections.OrderedDict(sorted(components.items()))
-
-#for name, component in jobs[2]['components'].iteritems():
-#    print name
-#    print component['color']
-#for name, component in components.iteritems():
-#    print name
-#    print component
-
+components = collections.OrderedDict(sorted(components.items(), key=lambda x: sorting_modification(x)))
 
 app = Flask(__name__)
 
