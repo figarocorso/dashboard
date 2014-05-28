@@ -19,7 +19,11 @@
         <div class="component-name">{{ component['name'] }}</div>
         {% for job in jobs %}
         {% if name in job['components'] %}
-            <div class="component-status {{ job['components'][name]['color'] }}"></div>
+            <div class="component-status {{ job['components'][name]['color'] }}">
+                {% if 'href' in job['components'][name] %}
+                <a href="{{ job['components'][name]['href'] }}" class="full-div" target="_blank"></a>
+                {% endif %}
+            </div>
         {% else %}
             <div class="component-status white"></div>
         {% endif %}

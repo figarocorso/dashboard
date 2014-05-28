@@ -83,7 +83,7 @@ for job in jobs:
             # Create component group entry
             group_name = grouped_component + '_grouped'
             if not group_name in groups:
-                groups[group_name] = {'name': grouped_component, 'href': '#', 'color': ''}
+                groups[group_name] = {'name': grouped_component, 'color': ''}
 
             groups[group_name]['color'] = logical_color_conjunction(
                                                         groups[group_name]['color'],
@@ -100,6 +100,7 @@ for job in jobs:
     job['components'] = collections.OrderedDict(sorted(job['components'].items()))
 
 components = collections.OrderedDict(sorted(components.items(), key=lambda x: sorting_modification(x)))
+
 
 app = Flask(__name__)
 
