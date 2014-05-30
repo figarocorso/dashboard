@@ -48,6 +48,10 @@
     background: linear-gradient(45deg, #EFEFEF, #C4C4C4);
 }
 
+.blue_anime {
+    background: linear-gradient(45deg, #721E99, #9F7DE8);
+}
+
 .hide {
     display: none;
 }
