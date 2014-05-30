@@ -1,9 +1,9 @@
 from ConfigParser import SafeConfigParser
 
 class ConfigurationParser:
-    def __init__(self):
+    def __init__(self, filename):
         self.configuration = SafeConfigParser()
-        self.configuration.read('dashboard.conf')
+        self.configuration.read(filename)
 
     def jenkins_credentials(self):
         credentials = dict(self.configuration.items('auth'))
@@ -26,3 +26,8 @@ class ConfigurationParser:
         groups_configuration = dict(self.configuration.items('grouping'))
 
         return groups_configuration['key_sections'].split()
+
+    def refresh_rate(self):
+        refresh_rate = dict(self.configuration.items('configuration'))['refresh_rate']
+
+        return int(refresh_rate) if refresh_rate else 60
