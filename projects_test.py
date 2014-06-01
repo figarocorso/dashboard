@@ -21,19 +21,50 @@ TRACKER_URL  = 'https://tracker.zentyal.org'
 TRACKER_KEY  = ''
 
 # binding
-tracker = Redmine(TRACKER_URL, key=TRACKER_KEY)
+public_tracker = Redmine(TRACKER_URL, key=TRACKER_KEY)
 
 # issue {attachments author changesets children created_on custom_fields description done_ratio
 #       id journals priority project relations start_date status subject time_entries tracker updated_on watchers }
-issues = tracker.issue.all()
-datas = {}
+issues = public_tracker.issue.all()
 
+datas = {}
+versions = {}
+statuses = []
+assigned = {}
 for issue in issues:
-  comp = issue.custom_fields.get(CUSTOM_FIELD_ID['component']).value
-  if comp not in datas:
-    datas[comp] = []
-  datas[comp].append((str(issue.id),issue.url)) 
-  
+    issue_details = (str(issue.id),issue.url)
+
+    if issue.status.name not in statuses:
+        statuses.append(issue.status.name)
+
+    if hasattr(issue, 'assigned_to'):
+        if issue.assigned_to.name not in assigned:
+            assigned[issue.assigned_to.name] = []
+        assigned[issue.assigned_to.name].append(issue_details)
+
+    component = issue.custom_fields.get(CUSTOM_FIELD_ID['component']).value
+    version_id = issue.custom_fields.get(CUSTOM_FIELD_ID['version']).value
+    # Speeding up the loop (from 98" to 12" with 252 issues)
+    if version_id not in versions:
+        version = public_tracker.version.get(version_id).name
+        versions[version_id] = version
+    else:
+        version = versions[version_id]
+
+    if not component:
+        component = "none"
+    if (not version) or (version == 'Unknown'):
+        version = "none"
+
+    if version not in datas:
+        datas[version] = {}
+    if component not in datas[version]:
+        datas[version][component] = []
+
+    datas[version][component].append(issue_details)
+
 print "Total number of issues: " + str(len(issues))
-for data in datas:
-  print data + ": " + repr([ x[0] for x in datas[data] ])
+print(statuses)
+for version, components in datas.iteritems():
+    for component in components:
+        print version + " - " + component + ": " + str(len(datas[version][component]))
