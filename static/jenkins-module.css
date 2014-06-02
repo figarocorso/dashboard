@@ -1,5 +1,5 @@
 #jenkins {
-    width: 50%;
+    width: 470px;
 }
 
 .table-header {
@@ -16,6 +16,7 @@
     opacity: .9;
     font-weight: bold;
 }
+
 .component-name {
     float: left;
     padding: 0px 10px;
@@ -33,7 +34,7 @@
 }
 
 .red {
-    background: linear-gradient(45deg, #FF0505, #CE0000);
+    background: linear-gradient(45deg, #EA6B6B, #8E0C0C);
 }
 
 .yellow {

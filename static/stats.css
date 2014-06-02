@@ -35,24 +35,8 @@ th a:hover, th a:focus {
     color: #222;
 }
 
-.red {
-    background-color: red;
-}
-
-.yellow {
-    background-color: yellow;
-}
-
-.blue {
-    background-color: blue;
-}
-
 .hide {
     display: none;
-}
-
-.group {
-    cursor: pointer;
 }
 
 .module {
