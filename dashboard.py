@@ -6,14 +6,12 @@ from flask import Flask, render_template
 
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
-from redmine_parser import RedmineHelper
 
 class ModulesInfo:
     def __init__(self):
         if not self.cached_data_is_valid():
             self.last_data_loaded = datetime.now()
             self.load_jenkins_info()
-            self.load_public_tracker_info()
 
     @classmethod
     def cached_data_is_valid(self):
@@ -33,13 +31,6 @@ class ModulesInfo:
         zentyal_jenkins = JenkinsHelper(self.configuration)
         self.jobs = zentyal_jenkins.get_jobs()
         self.components = zentyal_jenkins.get_components()
-
-
-    @classmethod
-    def load_public_tracker_info(self):
-        self.configuration = ConfigurationParser('dashboard.conf')
-        url, key = self.configuration.public_tracker_credentials()
-        public_tracker = RedmineHelper(url, key)
 
 
 app = Flask(__name__)
