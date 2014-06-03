@@ -60,6 +60,13 @@ def jenkins():
                                 components = modules_info.components
                           )
 
+@app.route("/public-tracker")
+def public_tracker():
+    modules_info = ModulesInfo()
+    modules_info.load_public_tracker_info()
+
+    return render_template('public-tracker.html')
+
 if __name__ == "__main__":
     app.debug = True
     app.run(host='0.0.0.0')
