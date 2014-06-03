@@ -50,6 +50,16 @@ def dashboard():
                                 components = modules_info.components
                           )
 
+@app.route("/jenkins")
+def jenkins():
+    modules_info = ModulesInfo()
+    modules_info.load_jenkins_info()
+
+    return render_template('jenkins.html',
+                                jobs = modules_info.jobs,
+                                components = modules_info.components
+                          )
+
 if __name__ == "__main__":
     app.debug = True
     app.run(host='0.0.0.0')
