@@ -10,6 +10,11 @@ class ConfigurationParser:
 
         return (credentials['url'], credentials['user'], credentials['pass'])
 
+    def public_tracker_credentials(self):
+        credentials = dict(self.configuration.items('public_tracker'))
+
+        return (credentials['url'], credentials['developer_key'])
+
     def jenkins_jobs(self):
         main_configuration = dict(self.configuration.items('main'))
         jobs = main_configuration['jobs'].split()
