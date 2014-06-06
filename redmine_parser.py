@@ -43,7 +43,17 @@ class RedmineHelper:
     def number_of_opened_issues(self):
         return self._status_count['New'] + self._status_count['Accepted']
 
+    def assigned_issues_by_developer(self):
+        developers_matrix = {}
+        for issue in self.issues:
+            if hasattr(issue, 'assigned_to'):
+                assignee = issue.assigned_to.name
+                if assignee not in developers_matrix:
+                    developers_matrix[assignee] = []
 
+                developers_matrix[assignee].append(self._issue_details(issue))
+
+        return developers_matrix
 
     # Private methods
     def _issues_versions(self):
@@ -101,5 +111,5 @@ public_tracker = RedmineHelper(url, key)
 print "Version/component matrix:\n" + str(public_tracker.component_version_matrix())
 print "Number of opened issues: " + str(public_tracker.number_of_opened_issues())
 print "Status count: " + str(public_tracker._status_count)
-print "[u'New', u'Feedback', u'Accepted']"
-print "developer assigned matrix"
+for devel, issues in public_tracker.assigned_issues_by_developer().iteritems():
+    print "Number of issues assigned to " + devel + " is: " + str(len(issues))
