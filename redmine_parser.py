@@ -15,26 +15,33 @@ class RedmineHelper:
         self.issues = self.tracker.issue.all()
         # Caching versions will speed up the loop (from 98" to 12" with 252 issues)
         self._issues_versions()
+        self._issues_status_counting()
 
-    def version_component_matrix(self):
+    def component_version_matrix(self):
         matrix = {}
         for issue in self.issues:
-            details = (str(issue.id), issue.url, issue.subject)
-            version = self._issue_version(issue)
+            details = self._issue_details(issue)
+
             component = self._issue_component(issue)
+            version = self._issue_version(issue)
+            status = issue.status.name
 
-            if version not in matrix:
-                matrix[version] = {}
-            if component not in matrix[version]:
-                matrix[version][component] = []
+            if component not in matrix:
+                matrix[component] = {}
+            if version not in matrix[component]:
+                matrix[component][version] = {}
+            if status not in matrix[component][version]:
+                matrix[component][version][status] = []
 
-            matrix[version][component].append(details)
+            matrix[component][version][status].append(details)
 
         return matrix
 
-    def number_of_opened_issues(self):
-        return len(self.issues)
+    def versions(self):
+        return self._versions
 
+    def number_of_opened_issues(self):
+        return self._status_count['New'] + self._status_count['Accepted']
 
 
 
@@ -46,8 +53,19 @@ class RedmineHelper:
             if version_id not in self._versions:
                 self._versions[version_id] = self.tracker.version.get(version_id).name
 
+    def _issues_status_counting(self):
+        self._status = {}
+        self._status_count = {}
 
+        for issue in self.issues:
+            status_name = issue.status.name
+            if status_name not in self._status:
+                self._status[status_name] = []
 
+            self._status[status_name].append(self._issue_details(issue))
+
+        for status_name in self._status:
+            self._status_count[status_name] = len(self._status[status_name])
 
     # Getting single issue attributes (avoiding a "Issue" class)
     def _issue_version_id(self, issue):
@@ -69,6 +87,9 @@ class RedmineHelper:
 
         return component
 
+    def _issue_details(self, issue):
+        return (str(issue.id), issue.url, issue.subject)
+
 # FIXME: only for development
 from configuration import ConfigurationParser
 print "Reading configuration from file"
@@ -77,5 +98,8 @@ url, key = configuration.public_tracker_credentials()
 
 print "Gathering ticket information"
 public_tracker = RedmineHelper(url, key)
-print "Version/component matrix:\n" + str(public_tracker.version_component_matrix())
+print "Version/component matrix:\n" + str(public_tracker.component_version_matrix())
 print "Number of opened issues: " + str(public_tracker.number_of_opened_issues())
+print "Status count: " + str(public_tracker._status_count)
+print "[u'New', u'Feedback', u'Accepted']"
+print "developer assigned matrix"
