@@ -37,6 +37,8 @@ class ModulesInfo:
             url, key = configuration.public_tracker_credentials()
             public_tracker = RedmineHelper(url, key)
 
+        return public_tracker
+
 
 app = Flask(__name__)
 
@@ -63,9 +65,19 @@ def jenkins():
 @app.route("/public-tracker")
 def public_tracker():
     modules_info = ModulesInfo()
-    modules_info.load_public_tracker_info()
+    tracker = modules_info.load_public_tracker_info()
 
-    return render_template('public-tracker.html')
+    component_issues = tracker.component_version_matrix()
+    versions = tracker.versions()
+    issues_status_count = tracker.issues_status_stats()
+    developer_matrix = tracker.assigned_issues_by_developer()
+
+    return render_template('public-tracker.html',
+                                components = component_issues,
+                                versions = versions,
+                                issues_stats = issues_status_count,
+                                developers = developer_matrix
+                            )
 
 if __name__ == "__main__":
     app.debug = True

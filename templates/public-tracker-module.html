@@ -1,4 +1,29 @@
 <div id="public-tracker" class="module">
     <div class="module-name">Public tracker</div>
+    <div id="component-matrix-public">
+        {% for component_name, versions in components.iteritems() %}
+            {% for version_name, statuses in versions.iteritems() %}
+                {% for status_name, issues in statuses.iteritems() %}
+                    <p>{{component_name}}@{{version_name}}-{{status_name}}: {{issues|length}}</p>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    <div> <!-- component-matrix-public -->
+
+    <div class="separator"></div>
+
+    <div id="developers-public">
+        {% for developer, issues in developers.iteritems() %}
+            <p>{{ developer }}: {{ issues|length }}</p>
+        {% endfor %}
+    <div> <!-- developers-public -->
+
+    <div class="separator"></div>
+
+    <div id="stats-public">
+        {% for issue_status, issues in issues_stats.iteritems() %}
+            <p>{{ issue_status }}: {{ issues }}</p>
+        {% endfor %}
+    <div> <!-- stats-public -->
 </div> <!-- public tracker-->
 

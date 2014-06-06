@@ -40,6 +40,9 @@ class RedmineHelper:
     def versions(self):
         return self._versions
 
+    def issues_status_stats(self):
+        return self._status_count
+
     def number_of_opened_issues(self):
         return self._status_count['New'] + self._status_count['Accepted']
 
