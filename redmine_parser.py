@@ -99,17 +99,3 @@ class RedmineHelper:
 
     def _issue_details(self, issue):
         return (str(issue.id), issue.url, issue.subject)
-
-# FIXME: only for development
-from configuration import ConfigurationParser
-print "Reading configuration from file"
-configuration = ConfigurationParser('dashboard.conf')
-url, key = configuration.public_tracker_credentials()
-
-print "Gathering ticket information"
-public_tracker = RedmineHelper(url, key)
-print "Version/component matrix:\n" + str(public_tracker.component_version_matrix())
-print "Number of opened issues: " + str(public_tracker.number_of_opened_issues())
-print "Status count: " + str(public_tracker._status_count)
-for devel, issues in public_tracker.assigned_issues_by_developer().iteritems():
-    print "Number of issues assigned to " + devel + " is: " + str(len(issues))
