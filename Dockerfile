@@ -1,7 +1,5 @@
 FROM ubuntu:14.04
 
-RUN echo "deb http://de.archive.ubuntu.com/ubuntu trusty main universe" >> /etc/apt/sources.list
-
 # Installing dependencies
 RUN apt-get update
 RUN apt-get install -y --force-yes python python-pip
