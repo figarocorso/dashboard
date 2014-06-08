@@ -22,8 +22,12 @@
 
     <div id="stats-public">
         {% for issue_status, issues in issues_stats.iteritems() %}
-            <p>{{ issue_status }}: {{ issues }}</p>
+            <div class="pseudo-td">
+                <p class="header">{{ issue_status }}</p>
+                <p class="result">{{ issues }}</p>
+            </div>
         {% endfor %}
     <div> <!-- stats-public -->
+    <div class="clear-left"></div>
 </div> <!-- public tracker-->
 

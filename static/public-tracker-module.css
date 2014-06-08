@@ -1,0 +1,21 @@
+.pseudo-td {
+    float: left;
+    border-radius: 6px;
+    text-align: center;
+    margin-right: 10px;
+    border: 1px #AAA solid;
+
+}
+
+p.header {
+    background: #CCC;
+    padding: 5px 15px;
+    margin: 0 auto 0 0;
+    font-weight: bold;
+    border-bottom: 1px #AAA solid;
+}
+
+p.result {
+    margin: 0px;
+    padding: 10px 0px;
+}
