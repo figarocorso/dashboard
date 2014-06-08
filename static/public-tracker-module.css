@@ -4,10 +4,10 @@
     text-align: center;
     margin-right: 10px;
     border: 1px #AAA solid;
-
+    margin-top: 10px;
 }
 
-p.header {
+p.header-vertical {
     background: #CCC;
     padding: 5px 15px;
     margin: 0 auto 0 0;
@@ -15,7 +15,21 @@ p.header {
     border-bottom: 1px #AAA solid;
 }
 
-p.result {
+p.result-vertical {
     margin: 0px;
     padding: 10px 0px;
+}
+
+p.header-horizontal {
+    background: #CCC;
+    padding: 5px 15px;
+    margin: 0 auto 0 0;
+    font-weight: bold;
+    float: left;
+}
+
+p.result-horizontal {
+    margin: 0px;
+    padding: 5px 15px;
+    float: left;
 }
