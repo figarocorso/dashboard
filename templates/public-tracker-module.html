@@ -12,22 +12,23 @@
 
     <div class="separator"></div>
 
-    <div id="developers-public" style="width: 300px;">
+    <div id="developers-public">
         {% for developer, issues in developers.iteritems() %}
-            <div class="pseudo-td">
-                <p class="header-horizontal">{{ developer }}</p>
-                <p class="result-horizontal">{{ issues|length }}</p>
+            <div class="pseudo-tr">
+                <span class="header-horizontal">{{ developer }}</span>
+                <span class="result-horizontal">{{ issues|length }}</span>
             </div>
+            <div class="clear-left"></div>
         {% endfor %}
     <div> <!-- developers-public -->
 
     <div class="separator clear-left"></div>
 
-    <div id="stats-public" style="width: 340px;>
+    <div id="stats-public">
         {% for issue_status, issues in issues_stats.iteritems() %}
             <div class="pseudo-td">
-                <p class="header-vertical">{{ issue_status }}</p>
-                <p class="result-vertical">{{ issues }}</p>
+                <span class="header-vertical">{{ issue_status }}</span>
+                <span class="result-vertical">{{ issues }}</span>
             </div>
         {% endfor %}
     <div> <!-- stats-public -->
