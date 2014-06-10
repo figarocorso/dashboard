@@ -1,3 +1,5 @@
+import collections
+
 from redmine import Redmine
 
 class RedmineHelper:
@@ -35,7 +37,7 @@ class RedmineHelper:
 
             matrix[component][version][status].append(details)
 
-        return matrix
+        return collections.OrderedDict(sorted(matrix.items()))
 
     def versions(self):
         versions = []
