@@ -50,3 +50,26 @@ span.result-horizontal {
     padding: 5px 15px;
     float: left;
 }
+
+.component-issues {
+    background: #CCC;
+}
+
+.component-public-tracker {
+    width: 150px;
+    float: left;
+    text-align: right;
+    padding: 3px;
+}
+
+.issues-counter {
+    text-align: center;
+    min-width: 60px;
+    float: left;
+    padding: 3px;
+}
+
+.New-status, .Accepted-status, .Feedback-status {
+    width: 33%;
+    float: left;
+}

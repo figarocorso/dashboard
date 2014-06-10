@@ -38,7 +38,12 @@ class RedmineHelper:
         return matrix
 
     def versions(self):
-        return self._versions
+        versions = []
+
+        for version_id, version in self._versions.iteritems():
+            versions.append(version)
+
+        return sorted(versions)
 
     def issues_status_stats(self):
         return self._status_count

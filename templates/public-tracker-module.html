@@ -1,12 +1,33 @@
 <div id="public-tracker" class="module">
     <div class="module-name">Public tracker</div>
     <div id="component-matrix-public">
-        {% for component_name, versions in components.iteritems() %}
-            {% for version_name, statuses in versions.iteritems() %}
-                {% for status_name, issues in statuses.iteritems() %}
-                    <p>{{component_name}}@{{version_name}}-{{status_name}}: {{issues|length}}</p>
-                {% endfor %}
+
+        <div class="component-issues">
+        <div class="component-public-tracker">&nbsp;</div>
+        {% for version in versions %}
+            <div class="issues-counter">
+            {{version}}
+            </div>
+        {% endfor %}
+        </div>
+        <div class="clear-left"></div>
+
+        {% for component_name, issues_versions in components.iteritems() %}
+            <div class="component-issues">
+            <div class="component-public-tracker"><strong>{{component_name}}</strong></div>
+            {% for version in versions %}
+                <div class="issues-counter">
+                {% if version in issues_versions %}
+                    {% for status, issues in issues_versions[version].iteritems() %}
+                        <div class="{{status}}-status {{version}}">{{issues|length}}</div>
+                    {% endfor %}
+                {% else %}
+                    <div class="{{ version }}">&nbsp;</div>
+                {% endif %}
+                </div>
             {% endfor %}
+            </div>
+            <div class="clear-left"></div>
         {% endfor %}
     <div> <!-- component-matrix-public -->
 
