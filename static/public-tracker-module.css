@@ -52,7 +52,14 @@ span.result-horizontal {
 }
 
 .component-issues {
-    background: #CCC;
+    background: #EFEDED;
+    height: 24px;
+    width: 630px;
+
+}
+
+.component-issues:nth-child(odd) {
+    background: #F7F7F7;
 }
 
 .component-public-tracker {
@@ -67,9 +74,23 @@ span.result-horizontal {
     min-width: 60px;
     float: left;
     padding: 3px;
+    border-left: 1px solid #666;
 }
 
 .New-status, .Accepted-status, .Feedback-status {
     width: 33%;
     float: left;
+    font-weight: bold;
+}
+
+.New-status {
+    color: #690000;
+}
+
+.Accepted-status {
+    color: olive;
+}
+
+.Feedback-status {
+    color: rgb(0, 60, 0);;
 }

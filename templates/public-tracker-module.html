@@ -2,7 +2,7 @@
     <div class="module-name">Public tracker</div>
     <div id="component-matrix-public">
 
-        <div class="component-issues">
+        <div class="component-issues" style="background:#FAFAFA;">
         <div class="component-public-tracker">&nbsp;</div>
         {% for version in versions %}
             <div class="issues-counter">
@@ -10,7 +10,6 @@
             </div>
         {% endfor %}
         </div>
-        <div class="clear-left"></div>
 
         {% for component_name, issues_versions in components.iteritems() %}
             <div class="component-issues">
@@ -18,16 +17,19 @@
             {% for version in versions %}
                 <div class="issues-counter">
                 {% if version in issues_versions %}
-                    {% for status, issues in issues_versions[version].iteritems() %}
-                        <div class="{{status}}-status {{version}}">{{issues|length}}</div>
+                    {% for status in ("New", "Accepted", "Feedback") %}
+                        {% if status in issues_versions[version] %}
+                        <div class="{{status}}-status {{version}}">{{issues_versions[version][status]|length}}</div>
+                        {% else %}
+                        <div class="{{ version }} New-status">&nbsp;</div>
+                        {% endif %}
                     {% endfor %}
                 {% else %}
-                    <div class="{{ version }}">&nbsp;</div>
+                    <div class="{{ version }} New-status">&nbsp;</div>
                 {% endif %}
                 </div>
             {% endfor %}
             </div>
-            <div class="clear-left"></div>
         {% endfor %}
     <div> <!-- component-matrix-public -->
 
