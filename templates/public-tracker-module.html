@@ -19,6 +19,13 @@
                 {% if version in issues_versions %}
                     {% for status in ("New", "Accepted", "Feedback") %}
                         {% if status in issues_versions[version] %}
+                        <div id="{{component_name}}-{{version}}-{{status}}" class="tickets">
+                        <ul>
+                        {% for issue in issues_versions[version][status] %}
+                            <li><a href="{{issue['url']}}" target="_blank">{{issue['subject']}}</a></li>
+                        {% endfor %}
+                        </ul>
+                        </div>
                         <div class="{{status}}-status {{version}}">{{issues_versions[version][status]|length}}</div>
                         {% else %}
                         <div class="{{ version }} New-status">&nbsp;</div>
