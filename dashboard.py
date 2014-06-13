@@ -68,13 +68,13 @@ def public_tracker():
     tracker = modules_info.load_public_tracker_info()
 
     component_issues = tracker.component_version_matrix()
-    versions = tracker.versions()
+    issues_versions = tracker.versions()
     issues_status_count = tracker.issues_status_stats()
     developer_matrix = tracker.assigned_issues_by_developer()
 
     return render_template('public-tracker.html',
                                 components = component_issues,
-                                versions = versions,
+                                versions = issues_versions,
                                 issues_stats = issues_status_count,
                                 developers = developer_matrix
                             )
