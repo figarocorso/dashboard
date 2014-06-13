@@ -1,7 +1,17 @@
 <div id="public-tracker" class="module">
     <div class="module-name">Public tracker</div>
-    <div id="component-matrix-public">
+    <div id="stats-public">
+        {% for issue_status, issues in issues_stats.iteritems() %}
+            <div class="pseudo-td">
+                <span class="header-vertical">{{ issue_status }}</span>
+                <span class="result-vertical">{{ issues }}</span>
+            </div>
+        {% endfor %}
+    <div> <!-- stats-public -->
 
+    <div class="separator clear-left"></div>
+
+    <div id="component-matrix-public">
         <div class="component-issues" style="background:#FAFAFA;">
         <div class="component-public-tracker">&nbsp;</div>
         {% for version in versions %}
@@ -53,17 +63,6 @@
             <div class="clear-left"></div>
         {% endfor %}
     <div> <!-- developers-public -->
-
-    <div class="separator clear-left"></div>
-
-    <div id="stats-public">
-        {% for issue_status, issues in issues_stats.iteritems() %}
-            <div class="pseudo-td">
-                <span class="header-vertical">{{ issue_status }}</span>
-                <span class="result-vertical">{{ issues }}</span>
-            </div>
-        {% endfor %}
-    <div> <!-- stats-public -->
     <div class="clear-left"></div>
 </div> <!-- public tracker-->
 
