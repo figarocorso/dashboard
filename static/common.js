@@ -18,3 +18,8 @@ function toggleFocusToNonGroupComponents() {
         }, 500);
     }
 }
+
+function showOrHideIssuesDiv(component, version, issueStatus) {
+    version = version.replace(".","");
+    $("#" + component + "-" + version + "-" + issueStatus).slideToggle();
+}

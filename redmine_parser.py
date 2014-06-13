@@ -108,4 +108,4 @@ class RedmineHelper:
         return component
 
     def _issue_details(self, issue):
-        return (str(issue.id), issue.url, issue.subject)
+        return {'id': str(issue.id), 'url': issue.url, 'subject': issue.subject}

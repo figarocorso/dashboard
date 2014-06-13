@@ -62,6 +62,9 @@ span.result-horizontal {
     background: #F7F7F7;
 }
 
+.component-issues:hover {
+    background: #F0ECA8;
+}
 .component-public-tracker {
     width: 150px;
     float: left;
@@ -81,6 +84,7 @@ span.result-horizontal {
     width: 33%;
     float: left;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .New-status {
@@ -113,6 +117,23 @@ span.result-horizontal {
     border: 1px solid #999;
 }
 
+.tickets h1 {
+    font-size: 18px;
+    color: #111;
+    display: inline-block;
+    margin: 0px;
+    padding-left: 10px;
+}
+
+.close-button {
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    font-weight: bold;
+    color: #111;
+    position: relative;
+}
+
 .tickets ul {
     margin: 0px;
     padding: 20px 20px;
@@ -121,10 +142,13 @@ span.result-horizontal {
     list-style: none;
     padding-bottom: 5px;
 }
-.tickets ul li a, .tickets ul li a:visited {
+.tickets ul li a {
     color: #111;
 }
-
+ .tickets ul li a:visited {
+    color: #222;
+    text-decoration: underline;
+}
 .tickets ul li a:hover {
     color: #555;
 }

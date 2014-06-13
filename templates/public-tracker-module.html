@@ -19,14 +19,16 @@
                 {% if version in issues_versions %}
                     {% for status in ("New", "Accepted", "Feedback") %}
                         {% if status in issues_versions[version] %}
-                        <div id="{{component_name}}-{{version}}-{{status}}" class="tickets">
+                        <div id="{{component_name}}-{{version | replace(".", "")}}-{{status}}" class="tickets">
+                        <h1>{{component_name | upper}}({{version}}): {{status}} issues</h1>
+                        <span class="close-button" onClick="showOrHideIssuesDiv('{{component_name}}', '{{version}}', '{{status}}')">x</span>
                         <ul>
                         {% for issue in issues_versions[version][status] %}
                             <li><a href="{{issue['url']}}" target="_blank">{{issue['subject']}}</a></li>
                         {% endfor %}
                         </ul>
                         </div>
-                        <div class="{{status}}-status {{version}}">{{issues_versions[version][status]|length}}</div>
+                        <div class="{{status}}-status {{version}}"><span onClick="showOrHideIssuesDiv('{{component_name}}', '{{version}}', '{{status}}')">{{issues_versions[version][status]|length}}</span></div>
                         {% else %}
                         <div class="{{ version }} New-status">&nbsp;</div>
                         {% endif %}
