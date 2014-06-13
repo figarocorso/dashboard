@@ -1,0 +1,154 @@
+.pseudo-td {
+    text-align: center;
+    margin-right: 10px;
+    border: 1px #AAA solid;
+    margin-top: 10px;
+    float: left;
+    min-width: 110px;
+}
+
+span.header-vertical {
+    background: #CCC;
+    padding: 5px 15px;
+    margin: 0 auto 0 0;
+    font-weight: bold;
+    border-bottom: 1px #AAA solid;
+    display: block;
+}
+
+span.result-vertical {
+    margin: 0px;
+    padding: 10px 0px;
+    display: block;
+}
+
+.pseudo-tr {
+    float: left;
+    text-align: center;
+    margin-right: 10px;
+    border: 1px #AAA solid;
+    margin-top: 10px;
+}
+
+span.header-horizontal {
+    background: #CCC;
+    padding: 5px 15px;
+    margin: 0 auto 0 0;
+    font-weight: bold;
+    text-align: right;
+    border-right: 1px #AAA solid;
+    float: left;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+span.result-horizontal {
+    width: 30px;
+    margin: 0px;
+    padding: 5px 15px;
+    float: left;
+}
+
+.component-issues {
+    background: #EFEDED;
+    height: 24px;
+    width: 630px;
+
+}
+
+.component-issues:nth-child(odd) {
+    background: #F7F7F7;
+}
+
+.component-issues:hover {
+    background: #F0ECA8;
+}
+.component-public-tracker {
+    width: 150px;
+    float: left;
+    text-align: right;
+    padding: 3px;
+}
+
+.issues-counter {
+    text-align: center;
+    min-width: 60px;
+    float: left;
+    padding: 3px;
+    border-left: 1px solid #666;
+}
+
+.New-status, .Accepted-status, .Feedback-status {
+    width: 33%;
+    float: left;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.New-status {
+    color: #690000;
+}
+
+.Accepted-status {
+    color: olive;
+}
+
+.Feedback-status {
+    color: rgb(0, 60, 0);;
+}
+
+.tickets {
+    display: none;
+    background: #DDD;
+    width: 600px;
+    height: 300px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    color: #fff;
+    position: fixed;
+    overflow-y: auto;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #999;
+}
+
+.tickets h1 {
+    font-size: 18px;
+    color: #111;
+    display: inline-block;
+    margin: 0px;
+    padding-left: 10px;
+}
+
+.close-button {
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    font-weight: bold;
+    color: #111;
+    position: relative;
+}
+
+.tickets ul {
+    margin: 0px;
+    padding: 20px 20px;
+}
+.tickets ul li {
+    list-style: none;
+    padding-bottom: 5px;
+}
+.tickets ul li a {
+    color: #111;
+}
+ .tickets ul li a:visited {
+    color: #222;
+    text-decoration: underline;
+}
+.tickets ul li a:hover {
+    color: #555;
+}

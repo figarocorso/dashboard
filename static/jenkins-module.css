@@ -13,7 +13,7 @@
 }
 
 .component:hover {
-    opacity: .9;
+    opacity: .9 !important;
     font-weight: bold;
 }
 
