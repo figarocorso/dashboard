@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from datetime import datetime
+from threading import Timer
 
 from flask import Flask, render_template
 
@@ -10,44 +11,33 @@ from redmine_parser import RedmineHelper
 
 class ModulesInfo:
     @classmethod
-    def cached_data_is_valid(self, refresh_rate, module):
-        timestamp = 'last_' + module + '_loaded'
-        if hasattr(self, timestamp):
-            time_difference = (datetime.now() - getattr(self, timestamp)).seconds
-        else:
-            time_difference = refresh_rate + 1
-
-        return time_difference < refresh_rate
-
-    @classmethod
-    def load_jenkins_info(self):
+    def auto_updater(self):
         configuration = ConfigurationParser('dashboard.conf')
-        if not self.cached_data_is_valid(configuration.refresh_rate(), 'jenkins'):
-            self.last_jenkins_loaded = datetime.now()
-            zentyal_jenkins = JenkinsHelper(configuration)
-            self.jobs = zentyal_jenkins.get_jobs()
-            self.components = zentyal_jenkins.get_components()
+        Timer(configuration.refresh_rate(), self.auto_updater).start()
+        now = datetime.now()
+        self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
 
+        # Load jenkins info
+        zentyal_jenkins = JenkinsHelper(configuration)
+        self.jobs = zentyal_jenkins.get_jobs()
+        self.components = zentyal_jenkins.get_components()
 
-    @classmethod
-    def load_public_tracker_info(self):
-        configuration = ConfigurationParser('dashboard.conf')
-        if not self.cached_data_is_valid(configuration.refresh_rate(), 'public_redmine'):
-            self.last_public_redmine_loaded = datetime.now()
-            url, key = configuration.public_tracker_credentials()
-            public_tracker = RedmineHelper(url, key)
+        # Load public tracker info
+        url, key = configuration.public_tracker_credentials()
+        self.public_tracker = RedmineHelper(url, key)
 
-        return public_tracker
-
+# Load initial data
+modules_info = ModulesInfo()
+modules_info.auto_updater()
 
 app = Flask(__name__)
 
 @app.route("/")
 def dashboard():
     modules_info = ModulesInfo()
-    modules_info.load_jenkins_info()
 
     return render_template('dashboard.html',
+                                update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 components = modules_info.components
                           )
@@ -55,9 +45,9 @@ def dashboard():
 @app.route("/jenkins")
 def jenkins():
     modules_info = ModulesInfo()
-    modules_info.load_jenkins_info()
 
     return render_template('jenkins.html',
+                                update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 components = modules_info.components
                           )
@@ -65,7 +55,7 @@ def jenkins():
 @app.route("/public-tracker")
 def public_tracker():
     modules_info = ModulesInfo()
-    tracker = modules_info.load_public_tracker_info()
+    tracker = modules_info.public_tracker
 
     component_issues = tracker.component_version_matrix()
     issues_versions = tracker.versions()
@@ -73,6 +63,7 @@ def public_tracker():
     developer_matrix = tracker.assigned_issues_by_developer()
 
     return render_template('public-tracker.html',
+                                update_date = modules_info.last_update,
                                 components = component_issues,
                                 versions = issues_versions,
                                 issues_stats = issues_status_count,
@@ -80,5 +71,4 @@ def public_tracker():
                             )
 
 if __name__ == "__main__":
-    app.debug = True
     app.run(host='0.0.0.0')
