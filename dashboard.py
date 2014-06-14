@@ -37,6 +37,7 @@ def dashboard():
     modules_info = ModulesInfo()
 
     return render_template('dashboard.html',
+                                update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 components = modules_info.components
                           )
@@ -46,6 +47,7 @@ def jenkins():
     modules_info = ModulesInfo()
 
     return render_template('jenkins.html',
+                                update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 components = modules_info.components
                           )
@@ -61,6 +63,7 @@ def public_tracker():
     developer_matrix = tracker.assigned_issues_by_developer()
 
     return render_template('public-tracker.html',
+                                update_date = modules_info.last_update,
                                 components = component_issues,
                                 versions = issues_versions,
                                 issues_stats = issues_status_count,
