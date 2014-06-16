@@ -6,9 +6,9 @@ class ConfigurationParser:
         self.configuration.read(filename)
 
     def jenkins_credentials(self):
-        credentials = dict(self.configuration.items('auth'))
+        credentials = dict(self.configuration.items('jenkins'))
 
-        return (credentials['url'], credentials['user'], credentials['pass'])
+        return (credentials['url'], credentials['user'], credentials['developer_key'])
 
     def public_tracker_credentials(self):
         credentials = dict(self.configuration.items('public_tracker'))
