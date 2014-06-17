@@ -18,7 +18,8 @@ class ModulesInfo:
         self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
 
         # Load jenkins info
-        zentyal_jenkins = JenkinsHelper(configuration)
+        url, user, password, key = configuration.jenkins_credentials()
+        zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
         self.jobs = zentyal_jenkins.get_jobs()
         self.components = zentyal_jenkins.get_components()
 

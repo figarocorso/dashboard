@@ -8,7 +8,7 @@ class ConfigurationParser:
     def jenkins_credentials(self):
         credentials = dict(self.configuration.items('jenkins'))
 
-        return (credentials['url'], credentials['user'], credentials['developer_key'])
+        return (credentials['url'], credentials['user'], credentials['pass'], credentials['developer_key'])
 
     def public_tracker_credentials(self):
         credentials = dict(self.configuration.items('public_tracker'))
@@ -36,3 +36,8 @@ class ConfigurationParser:
         refresh_rate = dict(self.configuration.items('configuration'))['refresh_rate']
 
         return int(refresh_rate) if refresh_rate else 60
+
+    def pullrequest_job(self):
+        main_configuration = dict(self.configuration.items('main'))
+
+        return main_configuration['pullrequest_job']
