@@ -1,15 +1,20 @@
-from jenkins import Jenkins
 from collections import OrderedDict
 
+import jenkinsapi.jenkins
+from jenkins import Jenkins
+
 class JenkinsHelper:
-    def __init__(self, configuration):
+    def __init__(self, url, username, password, key, configuration):
         self.configuration = configuration
         self.configuration_prefix = configuration.jenkins_configuration_prefix()
         self.grouped_components = configuration.jenkins_grouped_components()
+        self.pullrequest_job = configuration.pullrequest_job()
 
-        self.jenkins = self.connect_to_jenkins()
+        self.jenkins_configurations = Jenkins(url, username, password)
         self.build_components_jobs_matrix()
         self.sort_components()
+
+        self.jenkins_builds = jenkinsapi.jenkins.Jenkins(url, username, password)
 
 # Getters
     def get_jobs(self):
@@ -18,12 +23,24 @@ class JenkinsHelper:
     def get_components(self):
         return self.components
 
+    def get_pull_request_builds(self):
+        job = self.jenkins_builds.get_job(self.pullrequest_job)
+
+        self.pullrequest_builds = {}
+        for build_id in job.get_build_ids():
+            build = job[build_id]
+            self.pullrequest_builds[build.buildno] = {}
+            self.pullrequest_builds[build.buildno]['status'] = build.get_status()
+            self.pullrequest_builds[build.buildno]['url'] = build.baseurl
+            self.pullrequest_builds[build.buildno]['name'] = build.name
+
+            revision = build.get_revision_branch()[0]
+            self.pullrequest_builds[build.buildno]['revision'] = revision['SHA1']
+            self.pullrequest_builds[build.buildno]['revision_name'] = revision['name']
+
+        return self.pullrequest_builds
+
 # Helper methods
-    def connect_to_jenkins(self):
-        url, username, password = self.configuration.jenkins_credentials()
-
-        return Jenkins(url, username, password)
-
     def initial_jobs_info(self):
         wanted_jobs, wanted_ids = self.configuration.jenkins_jobs()
         jobs = self.wanted_jobs(wanted_jobs)
@@ -38,7 +55,7 @@ class JenkinsHelper:
         self.components = {}
         for job in self.jobs:
             groups = {}
-            job_raw_components = self.jenkins.get_job_info(job['name'])["activeConfigurations"]
+            job_raw_components = self.jenkins_configurations.get_job_info(job['name'])["activeConfigurations"]
 
             job['components'] = {}
             for raw_component in job_raw_components:
@@ -82,7 +99,7 @@ class JenkinsHelper:
 
 # Second level helper methods
     def wanted_jobs(self, wanted_jobs):
-        jobs = self.jenkins.get_jobs()
+        jobs = self.jenkins_configurations.get_jobs()
 
         return [ job for job  in jobs if job['name'] in wanted_jobs ]
 

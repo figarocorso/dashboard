@@ -18,13 +18,17 @@ class ModulesInfo:
         self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
 
         # Load jenkins info
-        zentyal_jenkins = JenkinsHelper(configuration)
+        url, user, password, key = configuration.jenkins_credentials()
+        zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
         self.jobs = zentyal_jenkins.get_jobs()
         self.components = zentyal_jenkins.get_components()
 
         # Load public tracker info
         url, key = configuration.public_tracker_credentials()
         self.public_tracker = RedmineHelper(url, key)
+
+        # Load jenkins pull request checker builds
+        #self.pullrequests_builds = zentyal_jenkins.get_pull_request_builds()
 
 # Load initial data
 modules_info = ModulesInfo()
