@@ -15,6 +15,15 @@ class JenkinsHelper:
         self.sort_components()
 
         self.jenkins_builds = jenkinsapi.jenkins.Jenkins(url, username, password)
+
+# Getters
+    def get_jobs(self):
+        return self.jobs
+
+    def get_components(self):
+        return self.components
+
+    def get_pull_request_builds(self):
         job = self.jenkins_builds.get_job(self.pullrequest_job)
 
         self.pullrequest_builds = {}
@@ -24,17 +33,12 @@ class JenkinsHelper:
             self.pullrequest_builds[build.buildno]['status'] = build.get_status()
             self.pullrequest_builds[build.buildno]['url'] = build.baseurl
             self.pullrequest_builds[build.buildno]['name'] = build.name
+
             revision = build.get_revision_branch()[0]
             self.pullrequest_builds[build.buildno]['revision'] = revision['SHA1']
             self.pullrequest_builds[build.buildno]['revision_name'] = revision['name']
-            self.pullrequest_builds[build.buildno]['pullrequest'] = revision['name'].split('/')[-2]
 
-# Getters
-    def get_jobs(self):
-        return self.jobs
-
-    def get_components(self):
-        return self.components
+        return self.pullrequest_builds
 
 # Helper methods
     def initial_jobs_info(self):

@@ -27,6 +27,9 @@ class ModulesInfo:
         url, key = configuration.public_tracker_credentials()
         self.public_tracker = RedmineHelper(url, key)
 
+        # Load jenkins pull request checker builds
+        #self.pullrequests_builds = zentyal_jenkins.get_pull_request_builds()
+
 # Load initial data
 modules_info = ModulesInfo()
 modules_info.auto_updater()
