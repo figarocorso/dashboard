@@ -24,7 +24,10 @@ class JenkinsHelper:
             self.pullrequest_builds[build.buildno]['status'] = build.get_status()
             self.pullrequest_builds[build.buildno]['url'] = build.baseurl
             self.pullrequest_builds[build.buildno]['name'] = build.name
-            self.pullrequest_builds[build.buildno]['revision'] = build.get_revision_branch()[0]['SHA1']
+            revision = build.get_revision_branch()[0]
+            self.pullrequest_builds[build.buildno]['revision'] = revision['SHA1']
+            self.pullrequest_builds[build.buildno]['revision_name'] = revision['name']
+            self.pullrequest_builds[build.buildno]['pullrequest'] = revision['name'].split('/')[-2]
 
 # Getters
     def get_jobs(self):
