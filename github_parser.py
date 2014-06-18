@@ -1,10 +1,15 @@
 import requests
 
 class GitHubHelper:
-    fields = ('html_url', 'number', 'merge_commit_sha', 'assignee', 'title', 'created_at', 'state')
+    fields = ('html_url', 'number', 'merge_commit_sha', 'assignee', 'title', 'body', 'created_at', 'state')
+
+    def __init__(self, client_id, client_secret):
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.auth_sufix = '?client_id=' + client_id + '&client_secret=' + client_secret
 
     def pull_requests(self, organization, repository):
-        api_url = 'https://api.github.com/repos/' + organization + '/' + repository + '/pulls'
+        api_url = 'https://api.github.com/repos/' + organization + '/' + repository + '/pulls' + self.auth_sufix
         response = requests.get(api_url).json
 
         self.pull_requests = {}

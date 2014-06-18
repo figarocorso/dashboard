@@ -8,6 +8,7 @@ from flask import Flask, render_template
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
 from redmine_parser import RedmineHelper
+from github_parser import GitHubHelper
 
 class ModulesInfo:
     @classmethod
@@ -29,6 +30,11 @@ class ModulesInfo:
 
         # Load jenkins pull request checker builds
         #self.pullrequests_builds = zentyal_jenkins.get_pull_request_builds()
+
+        # Load github pull requests
+        client_id, client_secret = configuration.github_credentials()
+        self.github = GitHubHelper(client_id, client_secret)
+        self.pullrequests = self.github.pull_requests()
 
 # Load initial data
 modules_info = ModulesInfo()
