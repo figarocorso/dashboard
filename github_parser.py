@@ -66,11 +66,17 @@ class GitHubHelper:
                 elif counter == 0 and api_status['state'] == "pending":
                     active = True
 
-                status = {}
-                status['url'] = api_status['target_url'] if 'target_url' in api_status else ""
-                status['state'] = api_status['state'] if 'state' in api_status else ""
+                if 'target_url' in api_status:
+                    status = {}
+                    status['url'] = api_status['target_url'] if 'target_url' in api_status else ""
+                    status['state'] = api_status['state'] if 'state' in api_status else ""
+                    status['description'] = api_status['description'] if 'description' in api_status else ""
+                    status['date'] = api_status['created_at'] if 'created_at' in api_status else ""
+                    status['date'] = status['date'].replace('T', ' ');
+                    status['date'] = status['date'][:-4]
 
-                statuses.append(status)
+                    statuses.append(status)
+
                 counter += 1
 
         return (statuses, active)

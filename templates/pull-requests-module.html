@@ -13,7 +13,7 @@
                     <a style="margin-right: 10px;" href="{{ pull_request['html_url'] }}" target="_blank">GitHub</a>
                     <a href="{{ pull_request['html_url'] }}/files" target="_blank">GH diff</a>
                     </span>
-                </div>
+                </div> <!-- pull-header -->
                 <div style="clear: both;"></div>
                 <div class="pull-more-info" id="{{pull_request['number']}}-info">
                     <ul>
@@ -22,11 +22,11 @@
                     <li><strong>Description:</strong> {{ pull_request['body'] }}</li>
                     </ul>
 
-                </div>
+                </div> <!-- pull-more-info -->
 
                 <div class="pull-request-status" id="{{pull_request['number']}}-status">
                 <ul> {% for status in pull_request['statuses'] %}
-                    <li><a href="{{ status['url'] }}" target="_blank">{{ status['state'] }}</a></li>
+                    <li><strong>{{ status['date'] }}:</strong> <a href="{{ status['url'] }}" target="_blank">{{ status['state'] }}</a></li>
                 {% endfor %} </ul>
                 </div> <!-- pull-request-status -->
                 </div> <!-- pull-request -->

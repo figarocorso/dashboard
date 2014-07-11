@@ -38,7 +38,9 @@
 }
 
 .pull-request-status {
+    padding: 5px 10px;
     display: none;
+    color: #525252;
 }
 
 .pull-more-info {

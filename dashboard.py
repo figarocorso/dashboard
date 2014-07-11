@@ -28,13 +28,11 @@ class ModulesInfo:
         url, key = configuration.public_tracker_credentials()
         self.public_tracker = RedmineHelper(url, key)
 
-        # Load jenkins pull request checker builds
-        #self.pullrequests_builds = zentyal_jenkins.get_pull_request_builds()
-
         # Load github pull requests
         client_id, client_secret = configuration.github_credentials()
         self.github = GitHubHelper(client_id, client_secret)
-        self.pullrequests = self.github.pull_requests()
+        self.pullrequests = self.github.pull_requests('Zentyal', 'zentyal')
+        self.base_branchs = self.github.base_branchs()
 
 # Load initial data
 modules_info = ModulesInfo()
@@ -80,5 +78,16 @@ def public_tracker():
                                 developers = developer_matrix
                             )
 
+@app.route("/pulls")
+def pull_requests():
+    modules_info = ModulesInfo()
+
+    return render_template('pull-requests.html',
+                                update_date = modules_info.last_update,
+                                pulls = modules_info.pullrequests,
+                                base_branchs = modules_info.base_branchs
+                          )
+
 if __name__ == "__main__":
+    app.debug = True
     app.run(host='0.0.0.0')
