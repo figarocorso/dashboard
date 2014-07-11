@@ -23,3 +23,14 @@ function showOrHideIssuesDiv(component, version, issueStatus) {
     version = version.replace(".","");
     $("#" + component + "-" + version + "-" + issueStatus).slideToggle();
 }
+
+/* Pull requests functions */
+function showStatusDiv(pullId) {
+    divId = "#" + pullId + '-status';
+    $(divId).slideToggle('fast');
+}
+
+function showInfoDiv(pullId) {
+    divId = "#" + pullId + '-info';
+    $(divId).slideToggle('fast');
+}
