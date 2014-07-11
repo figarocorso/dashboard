@@ -15,6 +15,11 @@ class ConfigurationParser:
 
         return (credentials['url'], credentials['developer_key'])
 
+    def github_credentials(self):
+        credentials = dict(self.configuration.items('github'))
+
+        return (credentials['client_id'], credentials['client_secret'])
+
     def jenkins_jobs(self):
         main_configuration = dict(self.configuration.items('main'))
         jobs = main_configuration['jobs'].split()

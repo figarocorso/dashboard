@@ -8,6 +8,7 @@ from flask import Flask, render_template
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
 from redmine_parser import RedmineHelper
+from github_parser import GitHubHelper
 
 class ModulesInfo:
     @classmethod
@@ -27,8 +28,11 @@ class ModulesInfo:
         url, key = configuration.public_tracker_credentials()
         self.public_tracker = RedmineHelper(url, key)
 
-        # Load jenkins pull request checker builds
-        #self.pullrequests_builds = zentyal_jenkins.get_pull_request_builds()
+        # Load github pull requests
+        client_id, client_secret = configuration.github_credentials()
+        self.github = GitHubHelper(client_id, client_secret)
+        self.pullrequests = self.github.pull_requests('Zentyal', 'zentyal')
+        self.base_branchs = self.github.base_branchs()
 
 # Load initial data
 modules_info = ModulesInfo()
@@ -73,6 +77,16 @@ def public_tracker():
                                 issues_stats = issues_status_count,
                                 developers = developer_matrix
                             )
+
+@app.route("/pulls")
+def pull_requests():
+    modules_info = ModulesInfo()
+
+    return render_template('pull-requests.html',
+                                update_date = modules_info.last_update,
+                                pulls = modules_info.pullrequests,
+                                base_branchs = modules_info.base_branchs
+                          )
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

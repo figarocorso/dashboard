@@ -1,0 +1,47 @@
+<div id="pull-requests" class="module">
+    {% for base_branch in base_branchs %}
+        <h3>{{ base_branch }}</h3>
+        <ul>
+        {% for pr_id, pull_request in pulls.iteritems() %}
+            {% if pull_request['base_branch'] == base_branch %}
+                <li>
+                <div class="pull-request {{pull_request['build_state']}}"id="{{pull_request['number']}}">
+                <div class="pull-header">
+                    <a class="branch-name" href="#" onClick="showInfoDiv({{pull_request['number']}})">{{ pull_request['branch'] }}</a>
+                    <span class="branch-links">
+                    <a style="margin-right: 10px;" href="#" onClick="showStatusDiv({{pull_request['number']}})">{{ pull_request['statuses'] | length }}</a>
+                    <a style="margin-right: 10px;" href="{{ pull_request['html_url'] }}" target="_blank">GitHub</a>
+                    <a href="{{ pull_request['html_url'] }}/files" target="_blank">GH diff</a>
+                    </span>
+                </div> <!-- pull-header -->
+                <div style="clear: both;"></div>
+                <div class="pull-more-info" id="{{pull_request['number']}}-info">
+                    <ul>
+                    <li><strong>Developer:</strong> {{ pull_request['user'] }}</li>
+                    <li><strong>Full title:</strong> {{ pull_request['title'] }}/</li>
+                    <li><strong>Description:</strong> {{ pull_request['body'] }}</li>
+                    </ul>
+
+                </div> <!-- pull-more-info -->
+
+                <div class="pull-request-status" id="{{pull_request['number']}}-status">
+                <ul> {% for status in pull_request['statuses'] %}
+                    <li><strong>{{ status['date'] }}:</strong> <a href="{{ status['url'] }}" target="_blank">{{ status['state'] }}</a></li>
+                {% endfor %} </ul>
+                </div> <!-- pull-request-status -->
+                </div> <!-- pull-request -->
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endfor %}
+</div> <!-- pull-requests -->
+<!--
+                <li>{{ pull_request['branch'] }}</li>
+                <li>{{ pull_request['title'] }}</li>
+                <li>{{ pull_request['user'] }}</li>
+                <li>{{ pull_request['body'] }}</li>
+                <li>{{ pull_request['html_url'] }}</li>
+                <li>{{ pull_request['state'] }}</li>
+                <li>{{ pull_request['number'] }}</li>
+-->
