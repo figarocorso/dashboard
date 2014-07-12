@@ -10,7 +10,7 @@ class GitHubHelper:
 
     def pull_requests(self, organization, repository):
         api_url = 'https://api.github.com/repos/' + organization + '/' + repository + '/pulls' + self.auth_sufix
-        response = requests.get(api_url).json
+        response = requests.get(api_url).json()
 
         self.pull_requests = {}
         for pull_request in response:
@@ -59,7 +59,7 @@ class GitHubHelper:
         counter = 0
         active = False
         if 'statuses_url' in pull_request:
-            response = requests.get(pull_request['statuses_url'] + self.auth_sufix).json
+            response = requests.get(pull_request['statuses_url'] + self.auth_sufix).json()
             for api_status in response:
                 if not api_status['description'] == "Build finished.":
                     continue
