@@ -51,10 +51,12 @@ span.result-horizontal {
     float: left;
 }
 
+#component-matrix-public {
+    width: 505px;
+}
 .component-issues {
     background: #EFEDED;
-    height: 24px;
-    width: 650px;
+    overflow: auto;
 }
 
 .component-issues:nth-child(odd) {
