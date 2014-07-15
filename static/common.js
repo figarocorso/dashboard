@@ -34,3 +34,10 @@ function showInfoDiv(pullId) {
     divId = "#" + pullId + '-info';
     $(divId).slideToggle('fast');
 }
+
+/* Key mappings */
+$( document ).on( 'keydown', function ( e ) {
+    if ( e.keyCode === 27 ) { // ESC
+        $('.tickets').hide('clip');
+    }
+});
