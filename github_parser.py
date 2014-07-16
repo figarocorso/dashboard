@@ -21,7 +21,7 @@ class GitHubHelper:
             pull_request_dict['active'] = active
             pull_request_dict['user'] = self.parse_user_info(pull_request)
             pull_request_dict['branch'] = self.parse_branch_name(pull_request)
-            pull_request_dict['build_state'] = self.last_build_state(pull_request_dict)
+            pull_request_dict['build_state'] = self.build_state(pull_request_dict)
 
             pr_id = pull_request['number']
             self.pull_requests[pr_id] = pull_request_dict
@@ -61,7 +61,7 @@ class GitHubHelper:
         if 'statuses_url' in pull_request:
             response = requests.get(pull_request['statuses_url'] + self.auth_sufix).json()
             for api_status in response:
-                if not api_status['description'] == "Build finished.":
+                if not self.interesting_status(api_status['description']):
                     continue
                 elif counter == 0 and api_status['state'] == "pending":
                     active = True
@@ -69,8 +69,8 @@ class GitHubHelper:
                 if 'target_url' in api_status:
                     status = {}
                     status['url'] = api_status['target_url'] if 'target_url' in api_status else ""
+                    status['description'] = self.parse_description(api_status['description'])
                     status['state'] = api_status['state'] if 'state' in api_status else ""
-                    status['description'] = api_status['description'] if 'description' in api_status else ""
                     status['date'] = api_status['created_at'] if 'created_at' in api_status else ""
                     status['date'] = status['date'].replace('T', ' ');
                     status['date'] = status['date'][:-4]
@@ -95,13 +95,22 @@ class GitHubHelper:
 
         return 'None'
 
-    def last_build_state(self, pull_request):
-        result = 'build-none'
-
-        if 'statuses' in pull_request:
-            if len(pull_request['statuses']):
-                result = 'build-' + pull_request['statuses'][0]['state']
-
+    def build_state(self, pull_request):
+        result = 'build-success' if len(pull_request['statuses']) else 'build-none'
         result += ' build-active ' if pull_request['active'] else ''
 
+        for status in pull_request['statuses']:
+            if status['state'] == 'failure':
+                result = result.replace('success', 'failure')
+
         return result
+
+    def parse_description(self, description):
+        if 'Merged' in description:
+            return "Merging"
+
+        return "Building"
+
+    # Helpers
+    def interesting_status (self, status_description):
+        return status_description == "Build finished." or status_description == "Merged build finished."

@@ -26,7 +26,7 @@
 
                 <div class="pull-request-status" id="{{pull_request['number']}}-status">
                 <ul> {% for status in pull_request['statuses'] %}
-                    <li><strong>{{ status['date'] }}:</strong> <a href="{{ status['url'] }}" target="_blank">{{ status['state'] }}</a></li>
+                    <li>[{{ status['date'] }}] {{ status['description'] }}: <a href="{{ status['url'] }}" target="_blank">{{ status['state'] }}</a></li>
                 {% endfor %} </ul>
                 </div> <!-- pull-request-status -->
                 </div> <!-- pull-request -->
@@ -36,12 +36,3 @@
         </ul>
     {% endfor %}
 </div> <!-- pull-requests -->
-<!--
-                <li>{{ pull_request['branch'] }}</li>
-                <li>{{ pull_request['title'] }}</li>
-                <li>{{ pull_request['user'] }}</li>
-                <li>{{ pull_request['body'] }}</li>
-                <li>{{ pull_request['html_url'] }}</li>
-                <li>{{ pull_request['state'] }}</li>
-                <li>{{ pull_request['number'] }}</li>
--->
