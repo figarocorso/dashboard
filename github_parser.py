@@ -8,14 +8,17 @@ class GitHubHelper:
         self.client_secret = client_secret
         self.auth_sufix = '?client_id=' + client_id + '&client_secret=' + client_secret
 
-    def pull_requests(self, organization, repository):
+        self.pull_requests = {}
+
+    def add_pull_requests(self, organization, repository):
         api_url = 'https://api.github.com/repos/' + organization + '/' + repository + '/pulls' + self.auth_sufix
         response = requests.get(api_url).json()
 
-        self.pull_requests = {}
+        pull_requests = {}
         for pull_request in response:
             pull_request_dict = self.parse_initial_fields(pull_request)
-            pull_request_dict['base_branch'] = self.merge_branch(pull_request)
+            full_base_branch = pull_request['head']['repo']['name'] + '/' + self.merge_branch(pull_request)
+            pull_request_dict['base_branch'] = full_base_branch
             statuses, active = self.statuses(pull_request)
             pull_request_dict['statuses'] = statuses
             pull_request_dict['active'] = active
@@ -24,8 +27,13 @@ class GitHubHelper:
             pull_request_dict['build_state'] = self.build_state(pull_request_dict)
 
             pr_id = pull_request['number']
-            self.pull_requests[pr_id] = pull_request_dict
+            pull_requests[pr_id] = pull_request_dict
 
+
+        # Append new pull requests to the existing ones
+        self.pull_requests.update(pull_requests)
+
+    def get_pull_requests(self):
         return self.pull_requests
 
     def base_branchs(self):
@@ -34,6 +42,8 @@ class GitHubHelper:
             for pr_id, pull_request in self.pull_requests.iteritems():
                 if not pull_request['base_branch'] in self.branchs:
                     self.branchs.append(pull_request['base_branch'])
+
+        self.branchs.sort(reverse=True)
 
         return self.branchs
 
