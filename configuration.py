@@ -46,3 +46,15 @@ class ConfigurationParser:
         main_configuration = dict(self.configuration.items('main'))
 
         return main_configuration['pullrequest_job']
+
+    def github_repositories(self):
+        github_conf = dict(self.configuration.items('github'))
+        repos = github_conf['repositories'].split()
+
+        repositories = []
+        for repo in repos:
+            organization, repository = repo.split('/')
+            repositories.append({'organization': organization, 'repository': repository})
+
+        return repositories
+
