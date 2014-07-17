@@ -31,7 +31,12 @@ class ModulesInfo:
         # Load github pull requests
         client_id, client_secret = configuration.github_credentials()
         self.github = GitHubHelper(client_id, client_secret)
-        self.pullrequests = self.github.pull_requests('Zentyal', 'zentyal')
+        repositories = configuration.github_repositories()
+
+        for repo in repositories:
+            self.github.add_pull_requests(repo['organization'], repo['repository'])
+
+        self.pullrequests = self.github.get_pull_requests()
         self.base_branchs = self.github.base_branchs()
 
 # Load initial data
