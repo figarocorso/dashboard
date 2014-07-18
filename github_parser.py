@@ -29,6 +29,9 @@ class GitHubHelper:
             pull_request_dict['user'] = self.parse_user_info(pull_request)
             pull_request_dict['branch'] = self.parse_branch_name(pull_request)
             pull_request_dict['build_state'] = self.build_state(pull_request_dict)
+            pull_request_dict['organization'] = organization
+            pull_request_dict['repository'] = repository
+
 
             pr_id = pull_request['number']
             pull_requests[pr_id] = pull_request_dict
