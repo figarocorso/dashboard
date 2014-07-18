@@ -10,8 +10,9 @@
                     <a class="branch-name" href="#" onClick="showInfoDiv({{pull_request['number']}})">{{ pull_request['branch'] }}</a>
                     <span class="branch-links">
                     <a style="margin-right: 10px;" href="#" onClick="showStatusDiv({{pull_request['number']}})">{{ pull_request['statuses'] | length }}</a>
-                    <a style="margin-right: 10px;" href="{{ pull_request['html_url'] }}" target="_blank">GitHub</a>
-                    <a href="{{ pull_request['html_url'] }}/files" target="_blank">GH diff</a>
+                    <a style="margin-right: 10px;" href="retest?organization={{ pull_request['organization'] }}&repository={{ pull_request['repository'] }}&pull_number={{ pull_request['number'] }}">Retest</a>
+                    <a style="margin-right: 10px;" href="{{ pull_request['html_url'] }}" target="_blank">View</a>
+                    <a href="{{ pull_request['html_url'] }}/files" target="_blank">Diff</a>
                     </span>
                 </div> <!-- pull-header -->
                 <div style="clear: both;"></div>

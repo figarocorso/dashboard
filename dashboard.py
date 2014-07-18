@@ -3,7 +3,7 @@
 from datetime import datetime
 from threading import Timer
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
@@ -30,7 +30,8 @@ class ModulesInfo:
 
         # Load github pull requests
         client_id, client_secret = configuration.github_credentials()
-        self.github = GitHubHelper(client_id, client_secret)
+        oauth_token, retest_message = configuration.github_retest()
+        self.github = GitHubHelper(client_id, client_secret, oauth_token, retest_message)
         repositories = configuration.github_repositories()
 
         for repo in repositories:
@@ -82,6 +83,21 @@ def public_tracker():
                                 issues_stats = issues_status_count,
                                 developers = developer_matrix
                             )
+
+@app.route("/retest")
+def retest_pull_request():
+    organization = request.args.get('organization')
+    repository = request.args.get('repository')
+    pull_number = request.args.get('pull_number')
+
+    if (organization and repository and pull_number):
+        modules_info = ModulesInfo()
+        github = modules_info.github
+        success = github.retest_pull_request(organization, repository, str(pull_number))
+        if success:
+            return redirect(url_for('pull_requests'))
+
+    return render_template('error.html')
 
 @app.route("/pulls")
 def pull_requests():
