@@ -55,7 +55,7 @@ class GitHubHelper:
         headers = {'Authorization': 'token %s' % self.oauth_token}
         data = {'body': '%s' % self.retest_message}
         url = 'https://api.github.com/repos/' + organization + '/' + repository
-        url += '/issues/' + pull_number + '/comments'
+        url += '/issues/' + pull_number + '/comments' + self.auth_sufix
 
         response = requests.post(url, data=json.dumps(data), headers=headers)
 

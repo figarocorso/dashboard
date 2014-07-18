@@ -3,7 +3,7 @@
 from datetime import datetime
 from threading import Timer
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
@@ -83,6 +83,25 @@ def public_tracker():
                                 issues_stats = issues_status_count,
                                 developers = developer_matrix
                             )
+
+@app.route("/retest")
+def retest_pull_request():
+    organization = request.args.get('organization')
+    repository = request.args.get('repository')
+    pull_number = request.args.get('pull_number')
+
+    if (organization and repository and pull_number):
+        modules_info = ModulesInfo()
+        github = modules_info.github
+        success = github.retest_pull_request(organization, repository, str(pull_number))
+        if success:
+            return render_template('pull-requests.html',
+                                        update_date = modules_info.last_update,
+                                        pulls = modules_info.pullrequests,
+                                        base_branchs = modules_info.base_branchs
+                                    )
+
+    return render_template('error.html')
 
 @app.route("/pulls")
 def pull_requests():
