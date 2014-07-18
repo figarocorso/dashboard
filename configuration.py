@@ -58,3 +58,8 @@ class ConfigurationParser:
 
         return repositories
 
+    def github_retest(self):
+        github = dict(self.configuration.items('github'))
+
+        return (github['oauth_token'], github['retest_message'])
+

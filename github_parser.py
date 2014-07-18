@@ -1,12 +1,16 @@
 import requests
+import json
 
 class GitHubHelper:
     fields = ('html_url', 'number', 'merge_commit_sha', 'assignee', 'title', 'body', 'created_at', 'state')
 
-    def __init__(self, client_id, client_secret):
+    def __init__(self, client_id, client_secret, oauth_token, retest_message):
         self.client_id = client_id
         self.client_secret = client_secret
         self.auth_sufix = '?client_id=' + client_id + '&client_secret=' + client_secret
+
+        self.oauth_token = oauth_token
+        self.retest_message = retest_message
 
         self.pull_requests = {}
 
@@ -46,6 +50,16 @@ class GitHubHelper:
         self.branchs.sort(reverse=True)
 
         return self.branchs
+
+    def retest_pull_request(self, organization, repository, pull_number):
+        headers = {'Authorization': 'token %s' % self.oauth_token}
+        data = {'body': '%s' % self.retest_message}
+        url = 'https://api.github.com/repos/' + organization + '/' + repository
+        url += '/issues/' + pull_number + '/comments'
+
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+
+        return response.status_code == 201
 
     # Helpers
     def parse_initial_fields(self, pull_request):

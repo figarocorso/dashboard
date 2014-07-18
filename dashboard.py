@@ -30,7 +30,8 @@ class ModulesInfo:
 
         # Load github pull requests
         client_id, client_secret = configuration.github_credentials()
-        self.github = GitHubHelper(client_id, client_secret)
+        oauth_token, retest_message = configuration.github_retest()
+        self.github = GitHubHelper(client_id, client_secret, oauth_token, retest_message)
         repositories = configuration.github_repositories()
 
         for repo in repositories:
