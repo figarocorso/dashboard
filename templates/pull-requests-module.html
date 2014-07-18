@@ -7,12 +7,12 @@
                 <li>
                 <div class="pull-request {{pull_request['build_state']}}"id="{{pull_request['number']}}">
                 <div class="pull-header">
-                    <a class="branch-name" href="#" onClick="showInfoDiv({{pull_request['number']}})">{{ pull_request['branch'] }}</a>
+                    <a title="Pull request details" class="branch-name" href="#" onClick="showInfoDiv({{pull_request['number']}})">{{ pull_request['branch'] }}</a>
                     <span class="branch-links">
-                    <a style="margin-right: 10px;" href="#" onClick="showStatusDiv({{pull_request['number']}})">{{ pull_request['statuses'] | length }}</a>
-                    <a style="margin-right: 10px;" href="retest?organization={{ pull_request['organization'] }}&repository={{ pull_request['repository'] }}&pull_number={{ pull_request['number'] }}">Retest</a>
-                    <a style="margin-right: 10px;" href="{{ pull_request['html_url'] }}" target="_blank">View</a>
-                    <a href="{{ pull_request['html_url'] }}/files" target="_blank">Diff</a>
+                    <a title="Display jenkins builds" style="margin-right: 10px;" href="#" onClick="showStatusDiv({{pull_request['number']}})">{{ pull_request['statuses'] | length }}</a>
+                    <a title = "Add a comment to the pull request so it will be retested again" style="margin-right: 10px;" href="retest?organization={{ pull_request['organization'] }}&repository={{ pull_request['repository'] }}&pull_number={{ pull_request['number'] }}">Retest</a>
+                    <a title="View the pull request at GitHub" style="margin-right: 10px;" href="{{ pull_request['html_url'] }}" target="_blank">View</a>
+                    <a title="View the diff of this pull request at GitHub"href="{{ pull_request['html_url'] }}/files" target="_blank">Diff</a>
                     </span>
                 </div> <!-- pull-header -->
                 <div style="clear: both;"></div>
