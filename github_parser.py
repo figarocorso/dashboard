@@ -126,8 +126,8 @@ class GitHubHelper:
         result = 'build-success' if len(pull_request['statuses']) else 'build-none'
         result += ' build-active ' if pull_request['active'] else ''
 
-        for status in pull_request['statuses']:
-            if status['state'] == 'failure':
+        if len(pull_request['statuses']):
+            if pull_request['statuses'][0]['state'] == 'failure':
                 result = result.replace('success', 'failure')
 
         return result
