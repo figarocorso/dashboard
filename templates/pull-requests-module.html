@@ -7,11 +7,11 @@
                 <li>
                 <div class="pull-request {{pull_request['build_state']}}"id="{{pull_request['number']}}">
                 <div class="pull-header">
-                    <a title="Pull request details" class="branch-name" href="#" onClick="showInfoDiv({{pull_request['number']}})">{{ pull_request['branch'] }}</a>
+                    <a title="View the pull request at GitHub" class="branch-name" href="{{ pull_request['html_url'] }}" target="_blank">{{ pull_request['branch'] }}</a>
                     <span class="branch-links">
                     <a title="Display jenkins builds" href="#" onClick="showStatusDiv({{pull_request['number']}})">{{ pull_request['statuses'] | length }}</a>
+                    <a title="Show pull request details" class="" href="#" onClick="showInfoDiv({{pull_request['number']}})">Details</a>
                     <a title = "Add a comment to the pull request so it will be retested again" href="retest?organization={{ pull_request['organization'] }}&repository={{ pull_request['repository'] }}&pull_number={{ pull_request['number'] }}">Retest</a>
-                    <a title="View the pull request at GitHub" href="{{ pull_request['html_url'] }}" target="_blank">View</a>
                     <a title="View the diff of this pull request at GitHub"href="{{ pull_request['html_url'] }}/files" target="_blank">Diff</a>
                     </span>
                 </div> <!-- pull-header -->
