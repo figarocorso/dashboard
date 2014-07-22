@@ -47,7 +47,6 @@ class ModulesInfo:
         repo_path = configuration.zentyal_repo_path()
         zentyal_git = ZentyalGitHelper(repo_path, self.pullrequests)
         self.pending_packages = zentyal_git.get_pending_packages()
-        print str(zentyal_git.get_modified_modules_in_pull_request('1475'))
 
 
 # Load initial data
@@ -129,5 +128,5 @@ def release_pending():
 
 
 if __name__ == "__main__":
-    app.debug = True
+    #app.debug = True
     app.run(host='0.0.0.0')
