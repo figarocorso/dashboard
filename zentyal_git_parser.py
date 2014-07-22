@@ -1,3 +1,4 @@
+import re
 from subprocess import check_output
 from os import system, chdir, getcwd
 
@@ -25,7 +26,14 @@ class ZentyalGitHelper:
                     lines = f.readlines()
                     if not lines[0].startswith("HEAD"):
                         continue
-                self.pending_packages[branch].append(package)
+                    del lines[0]
+                    changes = ''
+                    for line in lines:
+                        if re.search("^\s", line):
+                            changes += line
+                        else:
+                            break
+                self.pending_packages[branch].append({ 'name': package, 'changes': changes })
         chdir(cwd)
 
     def get_pending_packages(self):

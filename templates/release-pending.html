@@ -8,7 +8,20 @@
             <div class="packages">
                 <ul>
                     {% for package in packages[branch] %}
-                        <li><div class="pull-request">{{ package }}</div></li>
+                        <li>
+                            <div class="pull-request build-success" id="{{ package['name'] }}">
+                                <div class="pull-header">
+                                    <span class="branch-name">{{ package['name'] }}</span>
+                                    <span class="branch-links">
+                                        <a title="Show changes" class="" href="#" onClick="showInfoDiv('{{package['name']}}')">Changes</a>
+                                    </span>
+                                </div>
+                                <div style="clear: both;"></div>
+                                <div class="pull-more-info" id="{{ package['name'] }}-info">
+                                    <pre>{{ package['changes'] }}</pre>
+                                </div>
+                            </div>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
