@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+{% include 'head.html' %}
+<body>
+    <div id="content">
+        <ul>
+            {% for package in packages %}
+                <li>{{ package }}</li>
+            {% endfor %}
+        </ul>
+    </div> <!-- content -->
+    {% include 'footer.html' %}
+</body>
+</html>
+

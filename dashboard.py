@@ -9,6 +9,7 @@ from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
 from redmine_parser import RedmineHelper
 from github_parser import GitHubHelper
+from zentyal_git_parser import ZentyalGitHelper
 
 class ModulesInfo:
     @classmethod
@@ -17,6 +18,14 @@ class ModulesInfo:
         Timer(configuration.refresh_rate(), self.auto_updater).start()
         now = datetime.now()
         self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
+
+        # Load packages data
+        repo_path = configuration.zentyal_repo_path()
+        zentyal_git = ZentyalGitHelper(repo_path)
+        self.pending_packages = zentyal_git.get_pending_packages()
+
+        # FIXME: do not load the rest of the data while debugging /release-pending
+        return
 
         # Load jenkins info
         url, user, password, key = configuration.jenkins_credentials()
@@ -109,5 +118,15 @@ def pull_requests():
                                 base_branchs = modules_info.base_branchs
                           )
 
+@app.route("/release-pending")
+def release_pending():
+    modules_info = ModulesInfo()
+    return render_template('release-pending.html',
+                                update_date = modules_info.last_update,
+                                packages = modules_info.pending_packages
+                          )
+
+
 if __name__ == "__main__":
+    app.debug = True
     app.run(host='0.0.0.0')
