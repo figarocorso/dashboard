@@ -23,7 +23,7 @@
                                             <li>{{ change }}</li>
                                         {% endfor %}
                                         {% for pr in package['prs'] %}
-                                            <li>#{{ pr['number'] }}: {{ pr['branch'] }}</li>
+                                            <li class="{{pr['build_state']}}">#{{ pr['number'] }}: {{ pr['branch'] }}</li>
                                         {% endfor %}
                                     </ul>
                                 </div>
