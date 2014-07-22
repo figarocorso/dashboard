@@ -53,7 +53,9 @@ def dashboard():
     return render_template('dashboard.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
-                                components = modules_info.components
+                                components = modules_info.components,
+                                pulls = modules_info.pullrequests,
+                                base_branchs = modules_info.base_branchs
                           )
 
 @app.route("/jenkins")

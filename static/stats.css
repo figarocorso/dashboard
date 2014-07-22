@@ -4,7 +4,7 @@ body {
     margin: 0px;
     padding: 0px;
     font-family: 'Merriweather Sans', sans-serif;
-    background-color: #ddd; 
+    background-color: #fff; 
 }
 
 h1 {
@@ -55,6 +55,10 @@ th a:hover, th a:focus {
     border-radius: 3px;
     padding: 0px;
     font-size: 16px;
+    width: 48%;
+    margin: 20px 1%;
+    box-sizing: border-box;
+    float: left;
 }
 
 .module-name {
