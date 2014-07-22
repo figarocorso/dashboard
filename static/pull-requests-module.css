@@ -23,7 +23,7 @@
     margin-bottom: 0px;
     font-size: 1rem;
     min-height: 40px;
-    overflow: hidden;  
+    overflow: hidden;
 }
 .pull-request:last-child{
     border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -59,7 +59,7 @@
     z-index: 10;
     height: 40px;
 }
-.pull-request:hover .branch-links{ 
+.pull-request:hover .branch-links{
     right: 0px;
     transition: right 0.2s;
     -moz-transition: right 0.2s;
