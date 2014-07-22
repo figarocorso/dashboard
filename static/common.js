@@ -25,15 +25,12 @@ function showOrHideIssuesDiv(component, version, issueStatus) {
 }
 
 /* Pull requests functions */
-function showStatusDiv(pullId) {
-    divId = "#" + pullId + '-status';
-    $(divId).slideToggle('fast');
-}
 
-function showInfoDiv(pullId) {
-    divId = "#" + pullId + '-info';
-    $(divId).slideToggle('fast');
-}
+$( document ).ready(function() {
+$(".branch-name").click( function(){
+    $(this).parent().next(".pull-content").slideToggle(100);
+})
+});
 
 /* Key mappings */
 $( document ).on( 'keydown', function ( e ) {
