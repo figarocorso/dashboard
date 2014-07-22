@@ -8,7 +8,19 @@ body {
 }
 
 h1 {
+  margin: 0px;
+  font-size: 1.5rem;
+  font-weight: 100;
+  text-transform: uppercase;
   text-align: center;
+}
+h2 {
+  font-weight: 100;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
 }
 
 table {
@@ -34,40 +46,48 @@ a.component {
   height: 100%
 }
 
-th a, th a:visited {
+th a,
+th a:visited {
     text-decoration: none;
     color: #666;
 }
 
-th a:hover, th a:focus {
+th a:hover,
+th a:focus {
     text-decoration: none;
     color: #222;
 }
-
 .hide {
     display: none;
 }
-
+.half{
+  width: 49%;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  bottom: 40px;
+  left: 10px;
+}
+.half + .half{
+  right: 10px; 
+  left: initial;
+}
+.half h2{
+  text-align: center;
+}
 .module {
-    background: white ;
+    background: white;
     border: 1px solid #DDDDDD;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow:inset 0 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     padding: 0px;
-    font-size: 16px;
-    width: 48%;
-    margin: 20px 1%;
-    box-sizing: border-box;
-    float: left;
+    overflow: hidden;
+    overflow-y: auto;
+    top: 50px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;   
 }
-
-.module-name {
-    font-size: 18px;
-    color: #333;
-    text-align: center;
-    padding-bottom: 10px;
-}
-
 .clear-left {
     clear: left;
 }
@@ -83,4 +103,12 @@ a, a:visited {
 
 a:hover, a:focus {
   text-decoration: underline;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  font-size: 0.9rem;
+  text-align: center;
 }
