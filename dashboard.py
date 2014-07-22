@@ -20,23 +20,16 @@ class ModulesInfo:
         now = datetime.now()
         self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
 
-        # Load packages data
-        repo_path = configuration.zentyal_repo_path()
-        zentyal_git = ZentyalGitHelper(repo_path)
-        self.pending_packages = zentyal_git.get_pending_packages()
-
         # FIXME: do not load the rest of the data while debugging /release-pending
-        return
-
         # Load jenkins info
-        url, user, password, key = configuration.jenkins_credentials()
-        zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
-        self.jobs = zentyal_jenkins.get_jobs()
-        self.components = zentyal_jenkins.get_components()
+        #url, user, password, key = configuration.jenkins_credentials()
+        #zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
+        #self.jobs = zentyal_jenkins.get_jobs()
+        #self.components = zentyal_jenkins.get_components()
 
         # Load public tracker info
-        url, key = configuration.public_tracker_credentials()
-        self.public_tracker = RedmineHelper(url, key)
+        #url, key = configuration.public_tracker_credentials()
+        #self.public_tracker = RedmineHelper(url, key)
 
         # Load github pull requests
         client_id, client_secret = configuration.github_credentials()
@@ -49,6 +42,13 @@ class ModulesInfo:
 
         self.pullrequests = self.github.get_pull_requests()
         self.base_branchs = self.github.base_branchs()
+
+        # Load packages data
+        repo_path = configuration.zentyal_repo_path()
+        zentyal_git = ZentyalGitHelper(repo_path, self.pullrequests)
+        self.pending_packages = zentyal_git.get_pending_packages()
+        print str(zentyal_git.get_modified_modules_in_pull_request('1475'))
+
 
 # Load initial data
 modules_info = ModulesInfo()
