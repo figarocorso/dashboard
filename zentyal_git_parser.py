@@ -21,7 +21,7 @@ class ZentyalGitHelper:
             for module in modules:
                 if not pr_data[branch].has_key(module):
                     pr_data[branch][module] = []
-                pr_data[branch][module].append(number)
+                pr_data[branch][module].append(pr)
 
         self.pr_data = pr_data
 
@@ -52,7 +52,7 @@ class ZentyalGitHelper:
                 if self.pr_data[branch].has_key(package):
                     pull_requests = self.pr_data[branch][package]
                 if changes or pull_requests:
-                    self.pending_packages[branch].append({ 'name': package, 'changes': changes, 'prs' : pull_requests })
+                    self.pending_packages[branch].append({ 'name': package, 'changes': self.split_changes(changes), 'prs' : pull_requests })
         chdir(cwd)
 
     def get_pending_packages(self):
@@ -63,3 +63,6 @@ class ZentyalGitHelper:
         # FIXME use requests module instead of curl
         output = check_output('curl https://github.com/Zentyal/zentyal/pull/' + str(pr_id) + '.diff 2>/dev/null | grep "/ChangeLog$" |cut -d/ -f3 | sort | uniq', shell=True)
         return filter(None, output.split('\n'))
+
+    def split_changes(self, text):
+        return filter(None, text.replace('\n', ' ').replace("\t+", '\n').replace('\t', '').split('\n'))

@@ -18,10 +18,12 @@
                                 </div>
                                 <div style="clear: both;"></div>
                                 <div class="pull-more-info" id="{{ package['name'] }}-info">
-                                    <pre>{{ package['changes'] }}</pre>
                                     <ul>
+                                        {% for change in package['changes'] %}
+                                            <li>{{ change }}</li>
+                                        {% endfor %}
                                         {% for pr in package['prs'] %}
-                                            <li>{{ pr }}</li>
+                                            <li>#{{ pr['number'] }}: {{ pr['branch'] }}</li>
                                         {% endfor %}
                                     </ul>
                                 </div>
