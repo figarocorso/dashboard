@@ -20,6 +20,13 @@
         {% for job in jobs %}
         {% if name in job['components'] %}
             <div class="component-status {{ job['components'][name]['color'] }}">
+                {% if component['name'] in issues %}
+                    {% if job['short_name'] in issues[component['name']] %}
+                        {% if 'number_issues_open' in issues[component['name']][job['short_name']] %}
+                            {{ issues[component['name']][job['short_name']]['number_issues_open'] }}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
                 {% if 'href' in job['components'][name] %}
                 <a href="{{ job['components'][name]['href'] }}" class="full-div" target="_blank"></a>
                 {% endif %}
