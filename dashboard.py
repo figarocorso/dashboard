@@ -59,11 +59,15 @@ def dashboard():
 @app.route("/jenkins")
 def jenkins():
     modules_info = ModulesInfo()
+    tracker = modules_info.public_tracker
+
+    component_issues = tracker.component_version_matrix()
 
     return render_template('jenkins.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
-                                components = modules_info.components
+                                components = modules_info.components,
+                                issues = component_issues,
                           )
 
 @app.route("/public-tracker")
