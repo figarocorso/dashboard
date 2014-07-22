@@ -2,13 +2,13 @@
 <html>
 {% include 'head.html' %}
 <body>
-    <div id="content">
+    <div id="pull-requests" class="module">
         {% for branch in packages.keys() %}
-            <h1>{{ branch }}</h1>
+            <h3>{{ branch }}</h3>
             <div class="packages">
                 <ul>
                     {% for package in packages[branch] %}
-                        <li>{{ package }}</li>
+                        <li><div class="pull-request">{{ package }}</div></li>
                     {% endfor %}
                 </ul>
             </div>
