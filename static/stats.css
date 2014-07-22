@@ -1,6 +1,10 @@
+@import url(http://fonts.googleapis.com/css?family=Merriweather+Sans:400,300,700,400italic);
+
 body {
     margin: 0px;
-    padding: 10px 10px 45px 10px;
+    padding: 0px;
+    font-family: 'Merriweather Sans', sans-serif;
+    background-color: #ddd; 
 }
 
 h1 {
@@ -45,13 +49,12 @@ th a:hover, th a:focus {
 }
 
 .module {
-    background: rgba(255,255,255,0.35);
-    border: 1px solid rgba(255,255,255,0.6);
-    box-shadow: 0 2px 12px #DDDDDD;
-    border-radius: 6px;
-    padding: 1%;
+    background: white ;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 0px;
     font-size: 16px;
-    font-family: Helvetica;
 }
 
 .module-name {
@@ -70,10 +73,10 @@ th a:hover, th a:focus {
 }
 
 a, a:visited {
+    color: #0087a5;
     text-decoration: none;
-    color: #666;
 }
 
 a:hover, a:focus {
-    color: #333;
+  text-decoration: underline;
 }
