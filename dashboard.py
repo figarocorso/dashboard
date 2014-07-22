@@ -49,11 +49,14 @@ app = Flask(__name__)
 @app.route("/")
 def dashboard():
     modules_info = ModulesInfo()
+    tracker = modules_info.public_tracker
+    component_issues = tracker.component_version_matrix()
 
     return render_template('dashboard.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 components = modules_info.components,
+                                issues = component_issues,
                                 pulls = modules_info.pullrequests,
                                 base_branchs = modules_info.base_branchs
                           )
