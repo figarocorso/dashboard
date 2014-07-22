@@ -3,11 +3,16 @@
 {% include 'head.html' %}
 <body>
     <div id="content">
-        <ul>
-            {% for package in packages %}
-                <li>{{ package }}</li>
-            {% endfor %}
-        </ul>
+        {% for branch in packages.keys() %}
+            <h1>{{ branch }}</h1>
+            <div class="packages">
+                <ul>
+                    {% for package in packages[branch] %}
+                        <li>{{ package }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
     </div> <!-- content -->
     {% include 'footer.html' %}
 </body>

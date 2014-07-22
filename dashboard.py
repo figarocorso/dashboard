@@ -15,7 +15,8 @@ class ModulesInfo:
     @classmethod
     def auto_updater(self):
         configuration = ConfigurationParser('dashboard.conf')
-        Timer(configuration.refresh_rate(), self.auto_updater).start()
+        # FIXME: commented while developing
+        #Timer(configuration.refresh_rate(), self.auto_updater).start()
         now = datetime.now()
         self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
 
