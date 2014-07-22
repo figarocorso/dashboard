@@ -104,7 +104,7 @@ def retest_pull_request():
         github = modules_info.github
         success = github.retest_pull_request(organization, repository, str(pull_number))
         if success:
-            return redirect(url_for('pull_requests'))
+            return render_template('success.html')
 
     return render_template('error.html')
 

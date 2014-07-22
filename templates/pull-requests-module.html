@@ -1,3 +1,16 @@
+<div id="confirmation-dialog" class="popup-dialog">
+    <p>Are you sure you want to retest this pull request?</p>
+    <span class="dialog-buttons">
+        <button id="confirm-button">Yes</Button>
+        <button id="cancel-button">No</Button>
+    </span>
+</div> <!-- confirmation-dialog -->
+<div id="success-dialog" class="popup-dialog">
+    <p style="color:#46962D;">Retest comment posted correctly.</p>
+</div>
+<div id="error-dialog" class="popup-dialog">
+    <p style="color:#d90000;">ERROR: Comment couldn't be posted at GitHub.</p>
+</div>
 <div id="pull-requests" class="module">
     {% for base_branch in base_branchs %}
     <div class="pull-block">
@@ -9,7 +22,7 @@
                 <div class="pull-header">
                    <div class="branch-name" title="show details"> {{ pull_request[  'branch'] }}<span> {{ pull_request['statuses'] | length }}</span> </div>
                     <span class="branch-links">
-                    <a title = "Add a comment to the pull request so it will be retested again" href="retest?organization={{ pull_request['organization'] }}&repository={{ pull_request['repository'] }}&pull_number={{ pull_request['number'] }}" class="pull-retest">Retest</a><a title="View the pull request at GitHub" title="Display jenkins builds" class="pull-github" href="{{ pull_request['html_url'] }}"></a><a title="View the diff of this pull request at GitHub" href="{{ pull_request['html_url'] }}/files" class="pull-diff" target="_blank">Diff</a>
+                    <a title = "Add a comment to the pull request so it will be retested again" href="#" onClick="showConfirmationDialog('{{ pull_request['organization'] }}', '{{ pull_request['repository'] }}', '{{ pull_request['number'] }}')" class="pull-retest">Retest</a><a title="View the pull request at GitHub" title="Display jenkins builds" class="pull-github" href="{{ pull_request['html_url'] }}"></a><a title="View the diff of this pull request at GitHub" href="{{ pull_request['html_url'] }}/files" class="pull-diff" target="_blank">Diff</a>
                     </span>
                 </div> <!-- pull-header -->
                 <div class="pull-content" Id="{{pull_request['number']}}-info">
