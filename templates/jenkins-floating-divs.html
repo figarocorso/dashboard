@@ -1,0 +1,19 @@
+{% for name, component in components.iteritems() %}
+    {% for job in jobs %}
+        {% if component['name'] in issues %}
+            {% if job['short_name'] in issues[component['name']] %}
+                {% if 'open' in issues[component['name']][job['short_name']] %}
+                    <div id="{{ component['name'] }}-{{job['short_name'] | replace(".", "")}}-open" class="tickets">
+                    <h1>{{component['name'] | upper}}({{ job['short_name'] }}): Open issues</h1>
+                    <span class="close-button" onClick="showOrHideIssuesDiv('{{component['name']}}', '{{job['short_name']}}', 'open')">x</span>
+                    <ul>
+                    {% for issue in issues[component['name']][job['short_name']]['open'] %}
+                        <li><span class="status">{{ issue['status'] }}:</span> <a href="{{issue['url']}}" target="_blank">{{issue['subject']}}</a></li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}

@@ -36,6 +36,12 @@ class RedmineHelper:
                 matrix[component][version][status] = []
 
             if (status == 'New' or status == 'Accepted'):
+                if 'open' not in matrix[component][version]:
+                    matrix[component][version]['open'] = []
+
+                details['status'] = status
+                matrix[component][version]['open'].append(details)
+
                 if 'number_issues_open' in matrix[component][version]:
                     matrix[component][version]['number_issues_open'] += 1
                 else:
