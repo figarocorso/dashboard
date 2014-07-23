@@ -26,18 +26,18 @@ class ZentyalGitHelper:
         self.pr_data = pr_data
 
     def initialize_packages(self):
-        cwd = getcwd()
-        main_path = self.repo_path + "/main"
-        chdir(main_path)
-        for branch in ('master', '3.2'):
-            system("git checkout " + branch)
+        self.cwd = getcwd()
+        self.main_path = self.repo_path + "/main"
+        chdir(self.main_path)
+        for git_branch in ('master', '3.2'):
+            system("git checkout " + git_branch)
             # FIXME: this is commented while developing
             #system("git pull")
-            branch = "zentyal/" + branch
+            branch = "zentyal/" + git_branch
             self.pending_packages[branch] = []
             packages = filter(None, check_output("ls").split('\n'))
             for package in packages:
-                changelog = main_path + '/' + package + '/ChangeLog'
+                changelog = self.main_path + '/' + package + '/ChangeLog'
                 changes = ''
                 with open(changelog) as f:
                     lines = f.readlines()
@@ -52,8 +52,9 @@ class ZentyalGitHelper:
                 if self.pr_data[branch].has_key(package):
                     pull_requests = self.pr_data[branch][package]
                 if changes or pull_requests:
-                    self.pending_packages[branch].append({ 'name': package, 'changes': self.split_changes(changes), 'prs' : pull_requests })
-        chdir(cwd)
+                    changes = self.get_changes(changes, package)
+                    self.pending_packages[branch].append({ 'name': package, 'changes': changes, 'prs' : pull_requests })
+        chdir(self.cwd)
 
     def get_pending_packages(self):
         return self.pending_packages
@@ -64,5 +65,12 @@ class ZentyalGitHelper:
         output = check_output('curl https://github.com/Zentyal/zentyal/pull/' + str(pr_id) + '.diff 2>/dev/null | grep "/ChangeLog$" |cut -d/ -f3 | sort | uniq', shell=True)
         return filter(None, output.split('\n'))
 
-    def split_changes(self, text):
-        return filter(None, text.replace('\n', ' ').replace("\t+", '\n').replace('\t', '').split('\n'))
+    def get_changes(self, text, package):
+        changelog = self.main_path + '/' + package + '/ChangeLog'
+        changes = []
+        entries = filter(None, text.replace('\n', ' ').replace("\t+", '\n').replace('\t', '').split('\n'))
+        for entry in entries:
+            rev = check_output("git blame " + changelog + " -L '/" + entry[:60].strip() + "/',+1 | cut -f1 -d' '", shell=True)
+            url = "https://github.com/Zentyal/zentyal/commit/" + rev.strip()
+            changes.append({ 'entry': entry, 'rev': rev, 'url': url })
+        return changes

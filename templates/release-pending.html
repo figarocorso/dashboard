@@ -20,11 +20,17 @@
                                 <div class="pull-more-info" id="{{ package['name'] }}-info">
                                     <ul>
                                         {% for change in package['changes'] %}
-                                            <li class="merged-change">{{ change }}</li>
+                                            <li class="merged-change">
+                                                <a title="View the changeset at GitHub" href="{{ change['url'] }}" target="_blank">
+                                                    {{ change['entry'] }}
+                                                </a>
+                                            </li>
                                         {% endfor %}
                                         {% for pr in package['prs'] %}
                                             <li class="{{pr['build_state']}}">
-                                                <a title="View the pull request at GitHub" href="{{ pr['html_url'] }}" target="_blank">#{{ pr['number'] }}: {{ pr['branch'] }}</a>
+                                                <a title="View the pull request at GitHub" href="{{ pr['html_url'] }}" target="_blank">
+                                                    #{{ pr['number'] }}: {{ pr['branch'] }}
+                                                </a>
                                             </li>
                                         {% endfor %}
                                     </ul>
