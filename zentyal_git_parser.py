@@ -31,8 +31,7 @@ class ZentyalGitHelper:
         chdir(self.main_path)
         for git_branch in ('master', '3.2'):
             system("git checkout " + git_branch)
-            # FIXME: this is commented while developing
-            #system("git pull")
+            system("git pull")
             branch = "zentyal/" + git_branch
             self.pending_packages[branch] = []
             packages = filter(None, check_output("ls").split('\n'))

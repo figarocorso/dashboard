@@ -15,21 +15,19 @@ class ModulesInfo:
     @classmethod
     def auto_updater(self):
         configuration = ConfigurationParser('dashboard.conf')
-        # FIXME: commented while developing
-        #Timer(configuration.refresh_rate(), self.auto_updater).start()
+        Timer(configuration.refresh_rate(), self.auto_updater).start()
         now = datetime.now()
         self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
 
-        # FIXME: do not load the rest of the data while debugging /release-pending
         # Load jenkins info
-        #url, user, password, key = configuration.jenkins_credentials()
-        #zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
-        #self.jobs = zentyal_jenkins.get_jobs()
-        #self.components = zentyal_jenkins.get_components()
+        url, user, password, key = configuration.jenkins_credentials()
+        zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
+        self.jobs = zentyal_jenkins.get_jobs()
+        self.components = zentyal_jenkins.get_components()
 
         # Load public tracker info
-        #url, key = configuration.public_tracker_credentials()
-        #self.public_tracker = RedmineHelper(url, key)
+        url, key = configuration.public_tracker_credentials()
+        self.public_tracker = RedmineHelper(url, key)
 
         # Load github pull requests
         client_id, client_secret = configuration.github_credentials()
@@ -128,5 +126,4 @@ def release_pending():
 
 
 if __name__ == "__main__":
-    #app.debug = True
     app.run(host='0.0.0.0')
