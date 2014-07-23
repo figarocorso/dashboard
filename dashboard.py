@@ -49,11 +49,14 @@ app = Flask(__name__)
 @app.route("/")
 def dashboard():
     modules_info = ModulesInfo()
+    tracker = modules_info.public_tracker
+    component_issues = tracker.component_version_matrix()
 
     return render_template('dashboard.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 components = modules_info.components,
+                                issues = component_issues,
                                 pulls = modules_info.pullrequests,
                                 base_branchs = modules_info.base_branchs
                           )
@@ -61,11 +64,15 @@ def dashboard():
 @app.route("/jenkins")
 def jenkins():
     modules_info = ModulesInfo()
+    tracker = modules_info.public_tracker
+
+    component_issues = tracker.component_version_matrix()
 
     return render_template('jenkins.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
-                                components = modules_info.components
+                                components = modules_info.components,
+                                issues = component_issues,
                           )
 
 @app.route("/public-tracker")
@@ -97,7 +104,7 @@ def retest_pull_request():
         github = modules_info.github
         success = github.retest_pull_request(organization, repository, str(pull_number))
         if success:
-            return redirect(url_for('pull_requests'))
+            return render_template('success.html')
 
     return render_template('error.html')
 

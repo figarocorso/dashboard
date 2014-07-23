@@ -85,3 +85,13 @@ a.full-div {
     width: 100%;
     text-decoration: none;
 }
+
+.status {
+    color: black;
+    font-weight: bold;
+}
+
+.component-status a {
+    color: black !important;
+    font-weight: bold;
+}
