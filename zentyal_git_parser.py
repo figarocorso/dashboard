@@ -52,7 +52,8 @@ class ZentyalGitHelper:
                     pull_requests = self.pr_data[branch][package]
                 if changes or pull_requests:
                     changes = self.get_changes(changes, package)
-                    self.pending_packages[branch].append({ 'name': package, 'changes': changes, 'prs' : pull_requests })
+                    count = len(changes) + len(pull_requests)
+                    self.pending_packages[branch].append({ 'name': package, 'changes': changes, 'prs' : pull_requests, 'count' : count })
         chdir(self.cwd)
 
     def get_pending_packages(self):

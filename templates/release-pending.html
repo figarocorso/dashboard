@@ -4,6 +4,7 @@
 <body>
     <div id="pull-requests" class="module">
         {% for branch in packages.keys() %}
+        <div class="pull-block">
             <h3>{{ branch }}</h3>
             <div class="packages">
                 <ul>
@@ -11,14 +12,12 @@
                         <li>
                             <div class="pull-request build-success" id="{{ package['name'] }}">
                                 <div class="pull-header">
-                                    <span class="branch-name">{{ package['name'] }}</span>
-                                    <span class="branch-links">
-                                        <a title="Show changes" class="" href="#" onClick="showInfoDiv('{{package['name']}}')">Changes</a>
-                                    </span>
+                                    <div class="branch-name" title="show details">
+                                        {{ package['name'] }}<span> {{ package['count'] }}</span>
+                                    </div>
                                 </div>
-                                <div style="clear: both;"></div>
-                                <div class="pull-more-info" id="{{ package['name'] }}-info">
-                                    <ul>
+                                <div class="pull-content" id="{{ package['name'] }}-info">
+                                    <ul class="pull-request-list">
                                         {% for change in package['changes'] %}
                                             <li class="merged-change">
                                                 <a title="View the changeset at GitHub" href="{{ change['url'] }}" target="_blank">
@@ -40,6 +39,7 @@
                     {% endfor %}
                 </ul>
             </div>
+        </div>
         {% endfor %}
     </div> <!-- content -->
     {% include 'footer.html' %}
