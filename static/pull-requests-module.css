@@ -166,10 +166,15 @@
 .build-none .pull-header{
     color: #0087A5
 }
+
 .build-active {
     background-image: url('jenkins.png');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.merged-change {
+    background-color: #8888FF;
 }
 
 .popup-dialog {

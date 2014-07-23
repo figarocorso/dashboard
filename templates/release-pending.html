@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+{% include 'head.html' %}
+<body>
+    <div id="pull-requests" class="module">
+        {% for branch in packages.keys() %}
+        <div class="pull-block">
+            <h3>{{ branch }}</h3>
+            <div class="packages">
+                <ul>
+                    {% for package in packages[branch] %}
+                        <li>
+                            <div class="pull-request build-success" id="{{ package['name'] }}">
+                                <div class="pull-header">
+                                    <div class="branch-name" title="show details">
+                                        {{ package['name'] }}<span> {{ package['count'] }}</span>
+                                    </div>
+                                </div>
+                                <div class="pull-content" id="{{ package['name'] }}-info">
+                                    <ul class="pull-request-list">
+                                        {% for change in package['changes'] %}
+                                            <li class="merged-change">
+                                                <a title="View the changeset at GitHub" href="{{ change['url'] }}" target="_blank">
+                                                    {{ change['entry'] }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                        {% for pr in package['prs'] %}
+                                            <li class="{{pr['build_state']}}">
+                                                <a title="View the pull request at GitHub" href="{{ pr['html_url'] }}" target="_blank">
+                                                    #{{ pr['number'] }}: {{ pr['branch'] }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div> <!-- content -->
+    {% include 'footer.html' %}
+</body>
+</html>
+

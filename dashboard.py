@@ -9,6 +9,7 @@ from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
 from redmine_parser import RedmineHelper
 from github_parser import GitHubHelper
+from zentyal_git_parser import ZentyalGitHelper
 
 class ModulesInfo:
     @classmethod
@@ -39,6 +40,12 @@ class ModulesInfo:
 
         self.pullrequests = self.github.get_pull_requests()
         self.base_branchs = self.github.base_branchs()
+
+        # Load packages data
+        repo_path = configuration.zentyal_repo_path()
+        zentyal_git = ZentyalGitHelper(repo_path, self.pullrequests)
+        self.pending_packages = zentyal_git.get_pending_packages()
+
 
 # Load initial data
 modules_info = ModulesInfo()
@@ -117,6 +124,15 @@ def pull_requests():
                                 pulls = modules_info.pullrequests,
                                 base_branchs = modules_info.base_branchs
                           )
+
+@app.route("/release-pending")
+def release_pending():
+    modules_info = ModulesInfo()
+    return render_template('release-pending.html',
+                                update_date = modules_info.last_update,
+                                packages = modules_info.pending_packages
+                          )
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

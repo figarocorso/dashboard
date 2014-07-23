@@ -20,6 +20,11 @@ class ConfigurationParser:
 
         return (credentials['client_id'], credentials['client_secret'])
 
+    def zentyal_repo_path(self):
+        zentyal = dict(self.configuration.items('zentyal'))
+
+        return zentyal['repo_path']
+
     def jenkins_jobs(self):
         main_configuration = dict(self.configuration.items('main'))
         jobs = main_configuration['jobs'].split()
