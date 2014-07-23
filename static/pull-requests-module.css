@@ -79,6 +79,10 @@
     background-color: #D6F6D6;
 }
 
+.merged-change {
+    background-color: #8888FF;
+}
+
 .build-active {
     background-image: url('jenkins.png');
     background-repeat: no-repeat;
