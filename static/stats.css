@@ -48,31 +48,39 @@ a.component {
 
 th a,
 th a:visited {
-    text-decoration: none;
-    color: #666;
+  text-decoration: none;
+  color: #666;
 }
 
 th a:hover,
 th a:focus {
-    text-decoration: none;
-    color: #222;
+  text-decoration: none;
+  color: #222;
 }
 .hide {
-    display: none;
+  display: none;
 }
-.half{
-  width: 49%;
+#single-module .module-block{
+  width: 80%;
   box-sizing: border-box;
   position: absolute;
   top: 0px;
   bottom: 40px;
-  left: 10px;
+  left: 10%;
+  right: 10%;
 }
-.half + .half{
-  right: 10px;
+#dashboard .module-block{
+  width: 48.5%;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  bottom: 40px;
+  left: 1%;
+}
+  right: 1%; 
   left: initial;
 }
-.half h2{
+.module-block h2{
   text-align: center;
 }
 .module {

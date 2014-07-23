@@ -4,7 +4,7 @@
 
 .component {
     width: auto;
-    height: 20px;
+    height: 30px;
     opacity: .6;
 }
 
@@ -14,39 +14,47 @@
 }
 
 .component-name {
+    box-sizing: border-box;
     float: left;
-    padding: 0px 10px;
-    width: 240px;
     height: 100%;
+    line-height: 30px;
+    opacity: 1;
+    overflow: hidden;
+    padding: 0 10px;
     text-align: right;
-    opacity: 1 ;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 40%;
 }
 
 .component-status {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
     float: left;
-    width: 50px;
     height: 100%;
     text-align: center;
+    width: 15%;
 }
 
 .red {
-    background: linear-gradient(45deg, #EA6B6B, #8E0C0C);
+    background-color: #8E0C0C;
 }
 
 .yellow {
-    background: linear-gradient(45deg, #FAFF05, #D0D300);
+    background-color: #D0D300;
 }
 
 .blue {
-    background: linear-gradient(45deg, #1E5799, #7db9e8);
+    background-color: #00add0;
 }
 
 .white {
-    background: linear-gradient(45deg, #EFEFEF, #C4C4C4);
+    background-color: #C4C4C4;
 }
 
 .blue_anime {
-    background: linear-gradient(45deg, #721E99, #9F7DE8);
+    background-color: #9F7DE8;
 }
 
 .hide {
