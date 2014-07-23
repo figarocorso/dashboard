@@ -1,17 +1,4 @@
-<div id="confirmation-dialog" class="popup-dialog">
-    <p>Are you sure you want to retest this pull request?</p>
-    <span class="dialog-buttons">
-        <button id="confirm-button">Yes</Button>
-        <button id="cancel-button">No</Button>
-    </span>
-</div> <!-- confirmation-dialog -->
-<div id="success-dialog" class="popup-dialog">
-    <p style="color:#46962D;">Retest comment posted correctly.</p>
-</div>
-<div id="error-dialog" class="popup-dialog">
-    <p style="color:#d90000;">ERROR: Comment couldn't be posted at GitHub.</p>
-</div>
-
+{% include 'confirmation-dialogs.html' %}
 <h2>Pull-requests</h2>
 <div id="pull-requests" class="module">
     {% for base_branch in base_branchs %}
