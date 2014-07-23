@@ -24,7 +24,7 @@
                                         {% endfor %}
                                         {% for pr in package['prs'] %}
                                             <li class="{{pr['build_state']}}">
-                                                <a title="View the pull request at GitHub" class="branch-name" href="{{ pr['html_url'] }}" target="_blank">#{{ pr['number'] }}: {{ pr['branch'] }}</a>
+                                                <a title="View the pull request at GitHub" href="{{ pr['html_url'] }}" target="_blank">#{{ pr['number'] }}: {{ pr['branch'] }}</a>
                                             </li>
                                         {% endfor %}
                                     </ul>
