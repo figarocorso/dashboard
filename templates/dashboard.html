@@ -2,9 +2,13 @@
 <html>
 {% include 'head.html' %}
 <body>
-    <div id="content">
-        {% include 'jenkins-module.html' %}
-    </div> <!-- content -->
+	<div class="half">
+    {% include 'jenkins-module.html' %}
+    </div>
+    <div class="half">
+    {% include 'pull-requests-module.html' %}
+    </div>
+
     {% include 'footer.html' %}
 </body>
 </html>

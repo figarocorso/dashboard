@@ -6,85 +6,202 @@
 }
 
 #pull-requests h3 {
-    font-size: 18pt;
+    font-size: 1.4rem;
     margin: 0px;
-    padding 10px 10px;
-    margin-top: 30px;
+    padding: 12px;
+    margin-top: 0px;
     color: #515151;
+    font-weight: 100;
 }
-
+.pull-request-list{
+    border-top: 1px solid rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
 .pull-request {
-    width: 700px;
-    padding: 5px 0px 5px 10px;
-    border: 1px solid rgb(106, 106, 106);
-    margin-bottom: 2px;
-    font-size: 12pt;
-    font-family: Helvetica;
+    padding: 0px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 0px;
+    font-size: 1rem;
+    min-height: 40px;
+    overflow: hidden;
 }
-
+.pull-request:last-child{
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.pull-request .pull-header{
+    height: 40px;
+    overflow: hidden;
+    position: relative;
+}
+.pull-request .pull-details{
+    cursor: pointer;
+    border-radius: 50px;
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    top: 9px;
+    left: 5px;
+    overflow: hidden;
+    text-indent: 100px;
+    background: url('img/plus.png') center center no-repeat;
+}
+.pull-request .pull-details:hover{
+    background-color: rgb(255,255,255);
+}
 .branch-links {
-    float: right;
-    display: flex;
+    position: absolute;
+    top: 0px;
+    right: -200px;
+    background-color: inherit;
+    transition: right 0.2s;
+    -moz-transition: right 0.2s;
+    -webkit-transition: right 0.2s;
+    z-index: 10;
+    height: 40px;
 }
-
+.pull-request:hover .branch-links{
+    right: 0px;
+    transition: right 0.2s;
+    -moz-transition: right 0.2s;
+    -webkit-transition: right 0.2s;
+}
 .branch-links a {
-    background: rgba(251, 255, 0, 0.49);
-    border: 1px solid rgb(255, 208, 0);
-    padding: 3px 14px;
-    -webkit-border-radius: 7px;
-    border-radius: 7px;
-    margin-right: 10px;
+    border-left: 1px solid rgba(0,0,0,0.1);
+    display: inline-block;
+    overflow: hidden;
+    text-indent: 200px;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .branch-links a:hover {
-    background: rgba(255, 218, 0, 0.75);
-    border: 1px solid rgb(255, 208, 0);
+    background-color: rgba(255, 255, 255, 0.2)
+}
+
+.pull-request .pull-diff{
+    background-image: url('img/diff-icon.png');
+}
+.pull-request .pull-retest{
+    background-image: url('img/retest-icon.png');
+}
+.pull-request .pull-github{
+    background-image: url('img/github-icon.png');
 }
 
 .branch-name {
-    font-size: 14pt;
-    float: left;
-    width: 380px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding-top: 3px;
+    margin-right: 150px;
+    cursor: pointer;
+    background: url('img/plus.png') 10px center  no-repeat;
 }
-
-.pull-request-status {
-    padding: 5px 10px;
+.branch-name span{
+    background-color: white;
+    border-radius: 50px;
+    color: rgb(102, 102, 102);
+    display: inline-block;
+    font-family: sans-serif !important;
+    font-size: 0.8em;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
+    padding: 0 10px;
+    vertical-align: middle;
+}
+.pull-request .pull-content{
     display: none;
-    color: #525252;
+    font-size: 0.9em;
 }
-
-.pull-request-status ul {
-    padding-left: 15px !important;
-}
-
+.pull-request-status,
 .pull-more-info {
-    padding: 5px 10px;
-    display: none;
+    padding: 15px 40px;
     color: #525252;
-}
+    border-top: 1px dashed rgba(0,0,0,0.1);
 
-.build-failure {
-    background-color: #FFDBDB;
 }
-
-.build-none {
-    background-color: #FFF8EC;
+.pull-request .pull-more-info dt {
+    font-size: 0.65em;
+    color: rgba(0,0,0,0.6);
+    text-transform: uppercase;
+    margin:0px;
 }
-
-.build-success {
-    background-color: #D6F6D6;
+.pull-request .pull-more-info dd {
+    font-size: 1em;
+    color: #333;
+    margin: 0px 0px 10px 0px;
 }
-
-.merged-change {
-    background-color: #8888FF;
+.build-failure,
+.build-failure .branch-links {
+    background-color: rgba(255, 121, 0,0.15);
+}
+.build-failure:hover{
+    background-color: rgba(255, 121, 0,0.3);
+}
+.build-failure .pull-header{
+    color: #D90000
+}
+.build-success,
+.build-success .branch-links  {
+    background-color: rgba(105, 190, 40,0.15);
+}
+.build-success:hover {
+    background-color: rgba(105, 190, 40,0.3);
+}
+.build-success .pull-header{
+    color: #46962D
+}
+.build-none,
+.build-none .branch-links {
+    background-color: rgba(0, 173, 208,0.15);
+}
+.build-none:hover {
+    background-color: rgba(0, 173, 208,0.3);
+}
+.build-none .pull-header{
+    color: #0087A5
 }
 
 .build-active {
     background-image: url('jenkins.png');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.merged-change {
+    background-color: #8888FF;
+}
+
+.popup-dialog {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    width: 500px;
+    height: 130px;
+    background: ghostwhite;
+    z-index: 100;
+    border: 1px solid grey;
+    -webkit-box-shadow: 0px 0px 20px 5px rgba(46,46,46,0.5);
+    -moz-box-shadow: 0px 0px 20px 5px rgba(46,46,46,0.5);
+    box-shadow: 0px 0px 20px 5px rgba(46,46,46,0.5);
+    display: none;
+}
+
+.popup-dialog p {
+    padding: 10px 30px;
+}
+
+.dialog-buttons {
+    margin-left: 30%;
+    width: 40%;
+}
+
+.dialog-buttons button {
+    margin-right: 20px;
+    min-width: 75px;
 }
