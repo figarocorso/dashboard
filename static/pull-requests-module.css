@@ -19,14 +19,14 @@
 }
 .pull-request {
     padding: 0px;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 2px solid white;
     margin-bottom: 0px;
     font-size: 1rem;
     min-height: 40px;
     overflow: hidden;
 }
-.pull-request:last-child{
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+.pull-request:first-child{
+    border-top: 0;
 }
 .pull-request .pull-header{
     height: 40px;
