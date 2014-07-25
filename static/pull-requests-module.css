@@ -143,7 +143,8 @@
 .build-failure:hover{
     background-color: rgba(255, 121, 0,0.3);
 }
-.build-failure .pull-header{
+.build-failure .pull-header,
+.dropdown li#filter-failure{
     color: #D90000
 }
 .build-success,
@@ -153,7 +154,8 @@
 .build-success:hover {
     background-color: rgba(105, 190, 40,0.3);
 }
-.build-success .pull-header{
+.build-success .pull-header,
+.dropdown li#filter-sucess{
     color: #46962D
 }
 .build-none,
@@ -163,7 +165,8 @@
 .build-none:hover {
     background-color: rgba(0, 173, 208,0.3);
 }
-.build-none .pull-header{
+.build-none .pull-header,
+.dropdown li#filter-none{
     color: #0087A5
 }
 
