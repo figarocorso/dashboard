@@ -27,9 +27,30 @@ function showOrHideIssuesDiv(component, version, issueStatus) {
 /* Pull requests functions */
 
 $( document ).ready(function() {
-$(".branch-name").click( function(){
-    $(this).parent().next(".pull-content").slideToggle(100);
-})
+
+    $(".branch-name").click( function(){
+        $(this).parent().next(".pull-content").slideToggle(100);
+    })
+
+    $("#filter-failure").click(function(){
+        $(".build-failure").toggle();
+        $("#filter-failure").toggleClass("unchecked");
+    });
+
+    $("#filter-sucess").click( function(){
+        $(".build-success").toggle();
+        $("#filter-sucess").toggleClass("unchecked");
+    });
+
+    $("#filter-none").click( function(){
+        $(".build-none").toggle();
+        $("#filter-none").toggleClass("unchecked");
+    });
+
+    $(".filter-btn").click( function(){
+        $(this).next(".dropdown").slideToggle(100);
+    })
+
 });
 
 /* Key mappings */
