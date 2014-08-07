@@ -29,7 +29,7 @@ class ZentyalGitHelper:
         self.cwd = getcwd()
         self.main_path = self.repo_path + "/main"
         chdir(self.main_path)
-        for git_branch in ('master', '3.2'):
+        for git_branch in ('master', '3.5', '3.2'):
             system("git checkout " + git_branch)
             system("git pull")
             branch = "zentyal/" + git_branch
