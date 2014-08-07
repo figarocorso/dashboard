@@ -1,6 +1,15 @@
 {% include 'confirmation-dialogs.html' %}
 <h2>Pull-requests</h2>
+<div class="filter">
+    <span class="filter-btn"></span>
+    <ul class="dropdown">
+        <li id="filter-sucess">Success</li>
+        <li id="filter-failure">Failure</li>
+        <li id="filter-none">Not tested</li>
+    </ul>
+</div>
 <div id="pull-requests" class="module">
+
     {% for base_branch in base_branchs %}
     <div class="pull-block">
         <h3>{{ base_branch }}</h3>

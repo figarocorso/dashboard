@@ -10,12 +10,10 @@
 .component {
     width: auto;
     height: 30px;
-    opacity: .6;
 }
 
 .component:hover {
-    opacity: .9 !important;
-    font-weight: bold;
+    background-color: #ddd;
 }
 
 .component-name {
@@ -23,18 +21,17 @@
     float: left;
     height: 100%;
     line-height: 30px;
-    opacity: 1;
     overflow: hidden;
-    padding: 0 10px;
-    text-align: right;
+    padding: 0 10px 0 35px;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 40%;
+    border-bottom: 1px solid #eee;
 }
 
 .component-status {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid white;
+    border-left: 1px solid white;
     box-sizing: border-box;
     float: left;
     height: 100%;
@@ -47,15 +44,15 @@
 }
 
 .yellow {
-    background-color: #D0D300;
+    background-color: rgba(208, 211, 0, 0.4);
 }
 
 .blue {
-    background-color: #00add0;
+    background-color: rgba(0, 173, 208, 0.4);
 }
 
 .white {
-    background-color: #C4C4C4;
+    background-color: rgba(196, 196, 196, 0.4);
 }
 
 .blue_anime {
@@ -65,23 +62,18 @@
 .hide {
     display: none;
 }
-
 .group {
     cursor: pointer;
-    background: #EEE;
 }
-
-.not-focus {
-    opacity: .1;
+.group .component-name{
+    background: url('img/plus.png') no-repeat 10px center;
+    font-weight: bold;
 }
-
+.grouped{
+    background-color: #ccc;
+}
 .focus {
-    opacity: .6;
-}
-
-.important {
-    opacity: 1 !important;
-    background: #FFFFCC;
+    /*opacity: .6;*/
 }
 
 a.full-div {
@@ -97,6 +89,8 @@ a.full-div {
 }
 
 .component-status a {
-    color: black !important;
-    font-weight: bold;
+font-family: sans-serif !important;
+color: rgba(0,0,0,0.6);
+line-height: 30px;
+font-weight: bold;
 }
