@@ -6,9 +6,6 @@ from jenkins import Jenkins
 class JenkinsHelper:
     def __init__(self, url, username, password, key, configuration):
         self.configuration = configuration
-        self.configuration_prefix = configuration.jenkins_configuration_prefix()
-        self.grouped_components = configuration.jenkins_grouped_components()
-        self.pullrequest_job = configuration.pullrequest_job()
 
         self.jenkins_configurations = Jenkins(url, username, password)
         self.build_components_jobs_matrix()
@@ -24,7 +21,7 @@ class JenkinsHelper:
         return self.components
 
     def get_pull_request_builds(self):
-        job = self.jenkins_builds.get_job(self.pullrequest_job)
+        job = self.jenkins_builds.get_job(self.configuration.pullrequest_job())
 
         self.pullrequest_builds = {}
         for build_id in job.get_build_ids():
@@ -72,7 +69,7 @@ class JenkinsHelper:
         self.components[name]['type'] = 'group';
 
     def process_component(self, raw_component, job, groups):
-        name = raw_component['name'].replace(self.configuration_prefix, '')
+        name = raw_component['name'].replace(self.configuration.jenkins_configuration_prefix(), '')
 
         if name not in self.components:
             self.components[name] = {}
@@ -84,7 +81,7 @@ class JenkinsHelper:
         job['components'][name]['href'] = raw_component['url']
 
         # Manage grouped components
-        grouped_component = self.has_to_be_grouped(name, self.grouped_components)
+        grouped_component = self.has_to_be_grouped(name, self.configuration.jenkins_grouped_components())
         if grouped_component:
             self.components[name]['global_class'] = grouped_component + ' hide grouped'
 
