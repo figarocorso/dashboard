@@ -8,12 +8,11 @@ class JenkinsConnector:
         self.configuration = configuration
 
         self.jenkins_configurations = Jenkins(url, username, password)
-        self.build_components_jobs_matrix()
-        self.sort_components()
-
+        self.jobs = self._initial_jobs_info()
+        self._build_components_jobs_matrix(self.jobs)
+        self._sort_components()
         self.jenkins_builds = jenkinsapi.jenkins.Jenkins(url, username, password)
 
-# Getters
     def get_jobs(self):
         return self.jobs
 
@@ -37,38 +36,49 @@ class JenkinsConnector:
 
         return self.pullrequest_builds
 
-# Helper methods
-    def initial_jobs_info(self):
+    def _initial_jobs_info(self):
         wanted_jobs, wanted_ids = self.configuration.jenkins_jobs()
-        jobs = self.wanted_jobs(wanted_jobs)
-        return self.add_human_name_to_job(jobs, wanted_ids)
+        jobs = self._wanted_jobs(wanted_jobs)
+        return self._add_human_name_to_job(jobs, wanted_ids)
 
-    def sort_components(self):
-        self.components = OrderedDict(sorted(self.components.items(), key=lambda x: self.sorting_modification(x)))
+    def _wanted_jobs(self, wanted_jobs):
+        jobs = self.jenkins_configurations.get_jobs()
+        return [ job for job  in jobs if job['name'] in wanted_jobs ]
 
-    def build_components_jobs_matrix(self):
-        self.jobs = self.initial_jobs_info()
+    def _add_human_name_to_job(self, jobs, wanted_jobs_ids):
+        for i in range(len(jobs)):
+            jobs[i]['short_name'] = wanted_jobs_ids[i]
+        return jobs
 
+    def _sort_components(self):
+        self.components = OrderedDict(sorted(self.components.items(), key=lambda x: self._sorting_modification(x)))
+
+    def _sorting_modification(self, value):
+        if ('type' in value[1]) and (value[1]['type'] == 'group'):
+            return value[1]['name']
+        return value[0] + "_"
+
+    def _build_components_jobs_matrix(self, initial_jobs):
         self.components = {}
-        for job in self.jobs:
+        for job in initial_jobs:
             groups = {}
             job_raw_components = self.jenkins_configurations.get_job_info(job['name'])["activeConfigurations"]
 
             job['components'] = {}
             for raw_component in job_raw_components:
-                self.process_component(raw_component, job, groups)
+                self._process_component(raw_component, job, groups)
 
             for name, group in groups.iteritems():
                 job['components'][name] = group
-                self.add_group_to_components(name, group)
+                self._add_group_to_components(name, group)
 
-    def add_group_to_components(self, name, group):
+    def _add_group_to_components(self, name, group):
         self.components[name] = {}
         self.components[name]['name'] = group['name']
         self.components[name]['global_class'] = 'group'
         self.components[name]['type'] = 'group';
 
-    def process_component(self, raw_component, job, groups):
+    def _process_component(self, raw_component, job, groups):
         name = raw_component['name'].replace(self.configuration.jenkins_configuration_prefix(), '')
 
         if name not in self.components:
@@ -81,7 +91,7 @@ class JenkinsConnector:
         job['components'][name]['href'] = raw_component['url']
 
         # Manage grouped components
-        grouped_component = self.has_to_be_grouped(name, self.configuration.jenkins_grouped_components())
+        grouped_component = self._has_to_be_grouped(name, self.configuration.jenkins_grouped_components())
         if grouped_component:
             self.components[name]['global_class'] = grouped_component + ' hide grouped'
 
@@ -90,44 +100,22 @@ class JenkinsConnector:
             if not group_name in groups:
                 groups[group_name] = {'name': grouped_component, 'color': ''}
 
-            groups[group_name]['color'] = self.logical_color_conjunction(
+            groups[group_name]['color'] = self._logical_color_conjunction(
                                                         groups[group_name]['color'],
                                                         raw_component['color'])
 
-# Second level helper methods
-    def wanted_jobs(self, wanted_jobs):
-        jobs = self.jenkins_configurations.get_jobs()
-
-        return [ job for job  in jobs if job['name'] in wanted_jobs ]
-
-    def add_human_name_to_job(self, jobs, wanted_jobs_ids):
-        for i in range(len(jobs)):
-            jobs[i]['short_name'] = wanted_jobs_ids[i]
-
-        return jobs
-
-
-    def has_to_be_grouped(self, name, grouped_configuration):
+    def _has_to_be_grouped(self, name, grouped_configuration):
         for keyword in grouped_configuration:
             if name.find(keyword) == 0:
                 return keyword
-
         return False
 
-
-    def logical_color_conjunction(self, color1, color2):
+    def _logical_color_conjunction(self, color1, color2):
         if (color1 == 'red' or color2 == 'red'):
             return 'red'
         if (color1 == 'yellow' or color2 == 'yellow'):
             return 'yellow'
         if (color1 == 'blue' or color2 == 'blue'):
             return 'blue'
-
         return 'white'
-
-    def sorting_modification(self, value):
-        if ('type' in value[1]) and (value[1]['type'] == 'group'):
-            return value[1]['name']
-
-        return value[0] + "_"
 
