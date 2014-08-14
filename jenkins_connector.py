@@ -3,7 +3,7 @@ from collections import OrderedDict
 import jenkinsapi.jenkins
 from jenkins import Jenkins
 
-class JenkinsHelper:
+class JenkinsConnector:
     def __init__(self, url, username, password, key, configuration):
         self.configuration = configuration
 

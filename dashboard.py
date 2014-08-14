@@ -6,7 +6,7 @@ from threading import Timer
 from flask import Flask, render_template, request, redirect, url_for
 
 from configuration import ConfigurationParser
-from jenkins_parser import JenkinsHelper
+from jenkins_connector import JenkinsConnector
 from redmine_parser import RedmineHelper
 from github_parser import GitHubHelper
 from zentyal_git_parser import ZentyalGitHelper
@@ -21,7 +21,7 @@ class ModulesInfo:
 
         # Load jenkins info
         url, user, password, key = configuration.jenkins_credentials()
-        zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
+        zentyal_jenkins = JenkinsConnector(url, user, password, key, configuration)
         self.jobs = zentyal_jenkins.get_jobs()
         self.components = zentyal_jenkins.get_components()
 
