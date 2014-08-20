@@ -79,6 +79,7 @@ modules_info.auto_updater()
 app = Flask(__name__)
 
 @app.route("/")
+@requires_auth
 def dashboard():
     modules_info = ModulesInfo()
     tracker = modules_info.public_tracker
@@ -94,6 +95,7 @@ def dashboard():
                           )
 
 @app.route("/jenkins")
+@requires_auth
 def jenkins():
     modules_info = ModulesInfo()
     tracker = modules_info.public_tracker
@@ -108,6 +110,7 @@ def jenkins():
                           )
 
 @app.route("/public-tracker")
+@requires_auth
 def public_tracker():
     modules_info = ModulesInfo()
     tracker = modules_info.public_tracker
@@ -126,6 +129,7 @@ def public_tracker():
                             )
 
 @app.route("/retest")
+@requires_auth
 def retest_pull_request():
     organization = request.args.get('organization')
     repository = request.args.get('repository')
@@ -141,6 +145,7 @@ def retest_pull_request():
     return render_template('error.html')
 
 @app.route("/pulls")
+@requires_auth
 def pull_requests():
     modules_info = ModulesInfo()
 
@@ -151,6 +156,7 @@ def pull_requests():
                           )
 
 @app.route("/release-pending")
+@requires_auth
 def release_pending():
     modules_info = ModulesInfo()
     return render_template('release-pending.html',
