@@ -68,3 +68,7 @@ class ConfigurationParser:
 
         return (github['oauth_token'], github['retest_message'])
 
+    def authentication_credentials(self):
+        auth = dict(self.configuration.items('authentication'))
+
+        return (auth['username'], auth['password'])

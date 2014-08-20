@@ -3,7 +3,8 @@
 from datetime import datetime
 from threading import Timer
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
+from functools import wraps
 
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
@@ -46,6 +47,30 @@ class ModulesInfo:
         zentyal_git = ZentyalGitHelper(repo_path, self.pullrequests)
         self.pending_packages = zentyal_git.get_pending_packages()
 
+
+
+
+def check_auth(request_username, request_password):
+    configuration = ConfigurationParser('dashboard.conf')
+    username, password = configuration.authentication_credentials()
+
+    return request_username == username and request_password == password
+
+def authenticate():
+    return Response(
+        'You have to login with proper credentials', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+
+    return decorated
 
 # Load initial data
 modules_info = ModulesInfo()
