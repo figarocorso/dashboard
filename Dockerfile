@@ -9,6 +9,7 @@ ADD requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
 
 RUN git clone --progress -v https://github.com/Zentyal/zentyal.git /home/repos/zentyal
+RUN echo Europe/Amsterdam > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
 VOLUME [/home/dashboard]
 
