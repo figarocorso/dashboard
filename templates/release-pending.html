@@ -15,7 +15,7 @@
                             <div class="pull-request build-success" id="{{ package['name'] }}">
                                 <div class="pull-header">
                                     <div class="branch-name" title="show details">
-                                        {{ package['name'] }}<span> {{ package['changes'] | length }}</span><span> {{ package['prs'] | length }}</span>
+                                        {{ package['name'] }}<span> {{ package['count'] }}</span>
                                     </div>
                                 </div>
                                 <div class="pull-content" id="{{ package['name'] }}-info">
@@ -25,7 +25,7 @@
                                         {% for change in package['changes'] %}
                                             <li class="merged-change">
                                                 <a title="View the changeset at GitHub" href="{{ change['url'] }}" target="_blank">
-                                                    {{ change['entry'] }}
+                                                    - {{ change['entry'] }}
                                                 </a>
                                             </li>
                                         {% endfor %}
@@ -37,7 +37,11 @@
                                         {% for pr in package['prs'] %}
                                             <li class="{{pr['build_state']}}-release">
                                                 <a title="View the pull request at GitHub" href="{{ pr['html_url'] }}" target="_blank">
-                                                    {{ pr['number'] }}: {{ pr['branch'] }}
+                                                {% if 'failure' in pr['build_state'] %}
+                                                    <span><img style="margin: 0 1px -1px 3px;"src="../static/img/failure.png" width="10px" /></span> {{ pr['number'] }}: {{ pr['branch'] }}
+                                                {% else %}
+                                                    <span><img style="margin: 0 1px -2px 3px;" src="../static/img/correct.png" width="12px" /></span> {{ pr['number'] }}: {{ pr['branch'] }}
+                                                {% endif %}
                                                 </a>
                                             </li>
                                         {% endfor %}
