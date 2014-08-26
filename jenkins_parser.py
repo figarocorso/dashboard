@@ -45,6 +45,7 @@ class JenkinsHelper:
 # Helper methods
     def build_components_jobs_matrix(self):
         self.wanted_jobs = self.get_name_version_dictionary()
+        self.backlist_keywords = self.configuration.jenkins_blacklist()
         (jobs, jobs_sets) = self.obtain_jobs_to_parse()
         self.jobs = self.get_jobs_details(jobs, jobs_sets)
         self.processed_jobs = self.process_jobs()
@@ -65,6 +66,9 @@ class JenkinsHelper:
         jobs_sets = []
         single_jobs = []
         for job in jobs:
+            if self.job_is_blacklisted(job):
+                continue
+
             for job_prefix, version in self.wanted_jobs.iteritems():
                 if '/' + job_prefix.lower()  + '/' in  job['url'].lower():
                     job['version'] = version
@@ -76,6 +80,13 @@ class JenkinsHelper:
                     break
 
         return (single_jobs, jobs_sets)
+
+    def job_is_blacklisted(self, job):
+        for keyword in self.backlist_keywords:
+            if not job['url'].lower().find(keyword.lower()) == -1:
+                return True
+
+        return False
 
     def get_jobs_details(self, jobs, jobs_sets):
         jobs_details = jobs
