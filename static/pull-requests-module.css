@@ -176,13 +176,9 @@
     background-position: center;
 }
 
-.merged-change {
-    background-color: #8888FF;
-}
-
 /* filter */
 
-.filter{        
+.filter{
     position: absolute;
     top: 30px;
     right: 20px;

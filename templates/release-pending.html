@@ -1,7 +1,9 @@
 <!doctype html>
 <html>
 {% include 'head.html' %}
-<body>
+<body id="single-module">
+    <div class="module-block">
+    <h2>Release pending packages</h2>
     <div id="pull-requests" class="module">
         {% for branch in packages.keys() %}
         <div class="pull-block">
@@ -13,11 +15,13 @@
                             <div class="pull-request build-success" id="{{ package['name'] }}">
                                 <div class="pull-header">
                                     <div class="branch-name" title="show details">
-                                        {{ package['name'] }}<span> {{ package['count'] }}</span>
+                                        {{ package['name'] }}<span> {{ package['changes'] | length }}</span><span> {{ package['prs'] | length }}</span>
                                     </div>
                                 </div>
                                 <div class="pull-content" id="{{ package['name'] }}-info">
-                                    <ul class="pull-request-list">
+                                    {% if package['changes'] %}
+                                    <ul class="changelog-changes-list release-list">
+                                        <strong>Merged features ({{ package['changes'] | length }})</strong>
                                         {% for change in package['changes'] %}
                                             <li class="merged-change">
                                                 <a title="View the changeset at GitHub" href="{{ change['url'] }}" target="_blank">
@@ -25,14 +29,20 @@
                                                 </a>
                                             </li>
                                         {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                    {% if package['prs'] %}
+                                    <ul class="pull-request-list release-list">
+                                        <strong>Open pull requests ({{ package['prs'] | length }})</strong>
                                         {% for pr in package['prs'] %}
-                                            <li class="{{pr['build_state']}}">
+                                            <li class="{{pr['build_state']}}-release">
                                                 <a title="View the pull request at GitHub" href="{{ pr['html_url'] }}" target="_blank">
-                                                    #{{ pr['number'] }}: {{ pr['branch'] }}
+                                                    {{ pr['number'] }}: {{ pr['branch'] }}
                                                 </a>
                                             </li>
                                         {% endfor %}
                                     </ul>
+                                    {% endif %}
                                 </div>
                             </div>
                         </li>
@@ -41,7 +51,8 @@
             </div>
         </div>
         {% endfor %}
-    </div> <!-- content -->
+    </div> <!-- pull-requests -->
+    </div> <!-- module-block -->
     {% include 'footer.html' %}
 </body>
 </html>
