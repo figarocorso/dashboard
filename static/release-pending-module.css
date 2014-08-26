@@ -5,9 +5,5 @@
 }
 
 .release-list li{
-    margin: 5px 0px;
-}
-
-.build-failure-release a, .build-failure-release a:visited{
-    color: #D91313;
+    margin: 6px 10px;
 }
