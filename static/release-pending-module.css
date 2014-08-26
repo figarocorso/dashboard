@@ -1,0 +1,13 @@
+.release-list {
+    padding: 15px 40px !important;
+    color: #525252;
+    border-top: 1px dashed rgba(0,0,0,0.1);
+}
+
+.release-list li{
+    margin: 5px 0px;
+}
+
+.build-failure-release a, .build-failure-release a:visited{
+    color: #D91313;
+}
