@@ -1,7 +1,9 @@
 <!doctype html>
 <html>
 {% include 'head.html' %}
-<body>
+<body id="single-module">
+    <div class="module-block">
+    <h2>Release pending packages</h2>
     <div id="pull-requests" class="module">
         {% for branch in packages.keys() %}
         <div class="pull-block">
@@ -41,7 +43,8 @@
             </div>
         </div>
         {% endfor %}
-    </div> <!-- content -->
+    </div> <!-- pull-requests -->
+    </div> <!-- module-block -->
     {% include 'footer.html' %}
 </body>
 </html>
