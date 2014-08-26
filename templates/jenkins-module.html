@@ -22,8 +22,8 @@
         {% if version in job %}
             <div class="component-status {{ job[version]['color'] }}">
                 {% if job['name'] in issues %}
-                    {% if job['version'] in issues[job['name']] %}
-                        {% if 'number_issues_open' in issues[job['name']]['version'] %}
+                    {% if version in issues[job['name']] %}
+                        {% if 'number_issues_open' in issues[job['name']][version] %}
                             <a class="number-of-issues" href="#" onClick="showOrHideIssuesDiv('{{job['name']}}', '{{ version }}', 'open')">{{ issues[job['name']][version]['number_issues_open'] }}</a>
                         {% endif %}
                     {% endif %}

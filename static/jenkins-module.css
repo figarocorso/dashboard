@@ -39,7 +39,7 @@
     width: 15%;
 }
 
-.red {
+.red, .aborted {
     background-color: #8E0C0C;
 }
 
