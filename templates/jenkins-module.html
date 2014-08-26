@@ -2,35 +2,35 @@
 <div id="jenkins" class="module">
     <div class="table-header">
         <div class="component-name">&nbsp;</div>
-        {% for job in jobs %}
-            <div class="component-status"><a href="{{ job['url'] }}" target="_blank">{{ job['short_name'] }}</a></div>
+        {% for version in versions %}
+            <div class="component-status">{{ version }}</div>
         {% endfor %}
         <div class="clear-left"></div>
     </div> <!-- table-header -->
     {% include 'jenkins-floating-divs.html' %}
-    {% for name, component in components.iteritems() %}
-        {% if 'group' == component['type'] %}
+    {% for name, job in jobs.iteritems() %}
+        {% if 'group' == job['type'] %}
             {% set group = " (group)" %}
-            <div id="{{ name }}"  class="component {{ component['global_class'] }}" onClick="groupFolding('{{ component['name'] }}')">
+            <div id="{{ name }}"  class="component {{ job['global_class'] }}" onClick="groupFolding('{{ job['name'] }}')">
         {% else %}
             {% set group = '' %}
-            <div id="{{ name }}"  class="component {{ component['global_class'] }}" >
+            <div id="{{ name }}"  class="component {{ job['global_class'] }}" >
         {% endif %}
 
-        <div class="component-name">{{ component['name'] }}</div>
-        {% for job in jobs %}
-        {% if name in job['components'] %}
-            <div class="component-status {{ job['components'][name]['color'] }}">
-                {% if component['name'] in issues %}
-                    {% if job['short_name'] in issues[component['name']] %}
-                        {% if 'number_issues_open' in issues[component['name']][job['short_name']] %}
-                            <a class="number-of-issues" href="#" onClick="showOrHideIssuesDiv('{{component['name']}}', '{{job['short_name']}}', 'open')">{{ issues[component['name']][job['short_name']]['number_issues_open'] }}</a>
+        <div class="component-name">{{ job['name'] }}</div>
+        {% for version in versions %}
+        {% if version in job %}
+            <div class="component-status {{ job[version]['color'] }}">
+                {% if job['name'] in issues %}
+                    {% if version in issues[job['name']] %}
+                        {% if 'number_issues_open' in issues[job['name']][version] %}
+                            <a class="number-of-issues" href="#" onClick="showOrHideIssuesDiv('{{job['name']}}', '{{ version }}', 'open')">{{ issues[job['name']][version]['number_issues_open'] }}</a>
                         {% endif %}
                     {% endif %}
                 {% endif %}
 
-                {% if 'href' in job['components'][name] %}
-                <a href="{{ job['components'][name]['href'] }}" class="full-div" target="_blank"></a>
+                {% if 'url' in job[version] %}
+                <a href="{{ job[version]['url'] }}" class="full-div" target="_blank"></a>
                 {% endif %}
             </div>
         {% else %}

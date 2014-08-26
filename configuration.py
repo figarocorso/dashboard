@@ -32,6 +32,12 @@ class ConfigurationParser:
 
         return (jobs, jobs_ids)
 
+    def jenkins_blacklist(self):
+        main_configuration = dict(self.configuration.items('main'))
+        blacklist = main_configuration['excluded_jobs_keywords'].split()
+
+        return blacklist
+
     def jenkins_configuration_prefix(self):
         main_configuration = dict(self.configuration.items('main'))
 

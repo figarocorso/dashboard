@@ -1,13 +1,13 @@
-{% for name, component in components.iteritems() %}
-    {% for job in jobs %}
-        {% if component['name'] in issues %}
-            {% if job['short_name'] in issues[component['name']] %}
-                {% if 'open' in issues[component['name']][job['short_name']] %}
-                    <div id="{{ component['name'] }}-{{job['short_name'] | replace(".", "")}}-open" class="tickets">
-                    <h1>{{component['name'] | upper}}({{ job['short_name'] }}): Open issues</h1>
-                    <span class="close-button" onClick="showOrHideIssuesDiv('{{component['name']}}', '{{job['short_name']}}', 'open')">x</span>
+{% for name, job in jobs.iteritems() %}
+    {% for version in versions %}
+        {% if job['name'] in issues %}
+            {% if version in issues[job['name']] %}
+                {% if 'open' in issues[job['name']][version] %}
+                    <div id="{{ job['name'] }}-{{ version | replace(".", "")}}-open" class="tickets">
+                    <h1>{{ job['name'] | upper}}({{ version }}): Open issues</h1>
+                    <span class="close-button" onClick="showOrHideIssuesDiv('{{job['name']}}', '{{ version }}', 'open')">x</span>
                     <ul>
-                    {% for issue in issues[component['name']][job['short_name']]['open'] %}
+                    {% for issue in issues[job['name']][version]['open'] %}
                         <li><span class="status">{{ issue['status'] }}:</span> <a href="{{issue['url']}}" target="_blank">{{issue['subject']}}</a></li>
                     {% endfor %}
                     </ul>

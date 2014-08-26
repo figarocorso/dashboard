@@ -39,7 +39,7 @@
     width: 15%;
 }
 
-.red {
+.red, .aborted {
     background-color: #8E0C0C;
 }
 
@@ -55,7 +55,7 @@
     background-color: rgba(196, 196, 196, 0.4);
 }
 
-.blue_anime {
+.blue_anime, .yellow_anime, .red_anime {
     background-color: #9F7DE8;
 }
 

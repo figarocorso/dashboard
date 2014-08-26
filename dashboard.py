@@ -23,7 +23,7 @@ class ModulesInfo:
         url, user, password, key = configuration.jenkins_credentials()
         zentyal_jenkins = JenkinsHelper(url, user, password, key, configuration)
         self.jobs = zentyal_jenkins.get_jobs()
-        self.components = zentyal_jenkins.get_components()
+        self.versions = zentyal_jenkins.get_versions()
 
         # Load public tracker info
         url, key = configuration.public_tracker_credentials()
@@ -62,7 +62,7 @@ def dashboard():
     return render_template('dashboard.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
-                                components = modules_info.components,
+                                versions = modules_info.versions,
                                 issues = component_issues,
                                 pulls = modules_info.pullrequests,
                                 base_branchs = modules_info.base_branchs
@@ -78,7 +78,7 @@ def jenkins():
     return render_template('jenkins.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
-                                components = modules_info.components,
+                                versions = modules_info.versions,
                                 issues = component_issues,
                           )
 
