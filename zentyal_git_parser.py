@@ -70,7 +70,7 @@ class ZentyalGitHelper:
         changes = []
         entries = filter(None, text.replace('\n', ' ').replace("\t+", '\n').replace('\t', '').split('\n'))
         for entry in entries:
-            rev = check_output("git blame " + changelog + " -L '/" + entry[:60].strip() + "/',+1 | cut -f1 -d' '", shell=True)
+            rev = check_output("git blame " + changelog + " -L '/" + entry[:60].strip().replace("'", "") + "/',+1 | cut -f1 -d' '", shell=True)
             url = "https://github.com/Zentyal/zentyal/commit/" + rev.strip()
             changes.append({ 'entry': entry, 'rev': rev, 'url': url })
         return changes
