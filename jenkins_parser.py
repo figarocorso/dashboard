@@ -102,14 +102,16 @@ class JenkinsHelper:
         processed_jobs = {}
         groups = {}
         for job in self.jobs:
-            self.process_job(job, groups)
-            if not job['name'] in processed_jobs:
-                processed_jobs[job['name']] = {}
+            #Show me only the jobs that are not in blue
+            if job['color'] != 'blue':
+                self.process_job(job, groups)
+                if not job['name'] in processed_jobs:
+                    processed_jobs[job['name']] = {}
 
-            processed_jobs[job['name']][job['version']] = job
-            processed_jobs[job['name']]['name'] = job['name']
-            if 'global_class' in job:
-                processed_jobs[job['name']]['global_class'] = job['global_class']
+                processed_jobs[job['name']][job['version']] = job
+                processed_jobs[job['name']]['name'] = job['name']
+                if 'global_class' in job:
+                    processed_jobs[job['name']]['global_class'] = job['global_class']
 
         for name, group in groups.iteritems():
             self.add_group_to_components(name, group, processed_jobs)
