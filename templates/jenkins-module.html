@@ -40,5 +40,13 @@
     </div>
     <div class="clear-left"></div>
     {% endfor %}
+    <div id="stats-public">
+        {% for issue_status, issues in issues_stats.iteritems() %}
+            <div class="pseudo-td">
+                <span class="header-vertical">{{ issue_status }}</span>
+                <span class="result-vertical">{{ issues }}</span>
+            </div>
+        {% endfor %}
+    </div> <!-- stats-public -->
 </div> <!-- jenkins -->
 

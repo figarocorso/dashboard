@@ -57,14 +57,14 @@ app = Flask(__name__)
 def dashboard():
     modules_info = ModulesInfo()
     tracker = modules_info.public_tracker
-    component_issues = tracker.component_version_matrix()
+    issues_status_count = tracker.issues_status_stats()
 
     return render_template('dashboard.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 versions = modules_info.versions,
-                                issues = component_issues,
                                 pulls = modules_info.pullrequests,
+                                issues_stats = issues_status_count,
                                 base_branchs = modules_info.base_branchs
                           )
 
@@ -74,12 +74,14 @@ def jenkins():
     tracker = modules_info.public_tracker
 
     component_issues = tracker.component_version_matrix()
+    issues_status_count = tracker.issues_status_stats()
 
     return render_template('jenkins.html',
                                 update_date = modules_info.last_update,
                                 jobs = modules_info.jobs,
                                 versions = modules_info.versions,
                                 issues = component_issues,
+                                issues_stats = issues_status_count,
                           )
 
 @app.route("/public-tracker")

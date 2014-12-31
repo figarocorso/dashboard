@@ -62,9 +62,6 @@ class RedmineHelper:
     def issues_status_stats(self):
         return self._status_count
 
-    def number_of_opened_issues(self):
-        return self._status_count['New'] + self._status_count['Accepted']
-
     def assigned_issues_by_developer(self):
         developers_matrix = {}
         for issue in self.issues:
@@ -89,12 +86,26 @@ class RedmineHelper:
         self._status = {}
         self._status_count = {}
 
-        for issue in self.issues:
-            status_name = issue.status.name
-            if status_name not in self._status:
-                self._status[status_name] = []
+        new_plus_accepted = "Tickets new+accepted"
+        critical_crash = "Crash Critical"
+        major_crash = "Crash Major"
+        total_crash = "Crash Total"
 
-            self._status[status_name].append(self._issue_details(issue))
+        self._status[new_plus_accepted] = []
+        self._status[critical_crash] = []
+        self._status[major_crash] = []
+        self._status[total_crash] = []
+
+        for issue in self.issues:
+            if "CR-" in issue.subject:
+                if issue.priority.name == "Critical":
+                    self._status[critical_crash].append(self._issue_details(issue))
+                elif issue.priority.name == "Major":
+                    self._status[major_crash].append(self._issue_details(issue))
+                self._status[total_crash].append(self._issue_details(issue))
+            else:
+                if issue.status.name != "Feedback":
+                    self._status[new_plus_accepted].append(self._issue_details(issue))
 
         for status_name in self._status:
             self._status_count[status_name] = len(self._status[status_name])
