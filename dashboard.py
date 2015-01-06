@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
 from redmine_parser import RedmineHelper
-from github_parser import GitHubHelper
+from github_helper import GitHubParser, GitHubConnector
 from zentyal_git_parser import ZentyalGitHelper
 
 class ModulesInfo:
@@ -32,14 +32,16 @@ class ModulesInfo:
         # Load github pull requests
         client_id, client_secret = configuration.github_credentials()
         oauth_token, retest_message = configuration.github_retest()
-        self.github = GitHubHelper(client_id, client_secret, oauth_token, retest_message)
+        self.github_connector = GitHubConnector(client_id, client_secret, oauth_token, retest_message)
+        self.github_parser = GitHubParser()
         repositories = configuration.github_repositories()
 
         for repo in repositories:
-            self.github.add_pull_requests(repo['organization'], repo['repository'])
+            pull_requests = self.github_connector.get_pull_requests(repo['organization'], repo['repository'])
+            self.github_parser.add_pull_requests(pull_requests, repo['organization'], repo['repository'])
 
-        self.pullrequests = self.github.get_pull_requests()
-        self.base_branchs = self.github.base_branchs()
+        self.pullrequests = self.github_parser.get_pull_requests()
+        self.base_branchs = self.github_parser.base_branchs()
 
         # Load packages data
         repo_path = configuration.zentyal_repo_path()
@@ -110,8 +112,7 @@ def retest_pull_request():
 
     if (organization and repository and pull_number):
         modules_info = ModulesInfo()
-        github = modules_info.github
-        success = github.retest_pull_request(organization, repository, str(pull_number))
+        success = modules_info.github_connector.retest_pull_request(organization, repository, str(pull_number))
         if success:
             return render_template('success.html')
 
