@@ -3,7 +3,8 @@
 from datetime import datetime
 from threading import Timer
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
+from functools import wraps
 
 from configuration import ConfigurationParser
 from jenkins_parser import JenkinsHelper
@@ -49,6 +50,30 @@ class ModulesInfo:
         self.pending_packages = zentyal_git.get_pending_packages()
 
 
+
+
+def check_auth(request_username, request_password):
+    configuration = ConfigurationParser('dashboard.conf')
+    username, password = configuration.authentication_credentials()
+
+    return request_username == username and request_password == password
+
+def authenticate():
+    return Response(
+        'You have to login with proper credentials', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+
+    return decorated
+
 # Load initial data
 modules_info = ModulesInfo()
 modules_info.auto_updater()
@@ -56,6 +81,7 @@ modules_info.auto_updater()
 app = Flask(__name__)
 
 @app.route("/")
+@requires_auth
 def dashboard():
     modules_info = ModulesInfo()
     tracker = modules_info.public_tracker
@@ -71,6 +97,7 @@ def dashboard():
                           )
 
 @app.route("/jenkins")
+@requires_auth
 def jenkins():
     modules_info = ModulesInfo()
     tracker = modules_info.public_tracker
@@ -87,6 +114,7 @@ def jenkins():
                           )
 
 @app.route("/public-tracker")
+@requires_auth
 def public_tracker():
     modules_info = ModulesInfo()
     tracker = modules_info.public_tracker
@@ -105,6 +133,7 @@ def public_tracker():
                             )
 
 @app.route("/retest")
+@requires_auth
 def retest_pull_request():
     organization = request.args.get('organization')
     repository = request.args.get('repository')
@@ -119,6 +148,7 @@ def retest_pull_request():
     return render_template('error.html')
 
 @app.route("/pulls")
+@requires_auth
 def pull_requests():
     modules_info = ModulesInfo()
 
@@ -129,6 +159,7 @@ def pull_requests():
                           )
 
 @app.route("/release-pending")
+@requires_auth
 def release_pending():
     modules_info = ModulesInfo()
     return render_template('release-pending.html',
