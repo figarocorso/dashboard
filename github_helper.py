@@ -125,31 +125,31 @@ class GitHubConnector:
 
         self.oauth_token = oauth_token
         self.retest_message = retest_message
+        self.headers = {'Authorization': 'token %s' % self.oauth_token}
 
     def get_pull_requests(self, organization, repository):
         pull_requests_data = []
-        api_url = 'https://api.github.com/repos/' + organization + '/' + repository + '/pulls' + self.auth_sufix
-        response = requests.get(api_url).json()
+        api_url = 'https://api.github.com/repos/' + organization + '/' + repository + '/pulls'
+        response = requests.get(api_url, headers=self.headers).json()
         for pull_request in response:
             status = self._get_statuses(pull_request)
             pull_requests_data.append((status, pull_request))
 
         return pull_requests_data
 
-
     def retest_pull_request(self, organization, repository, pull_number):
-        headers = {'Authorization': 'token %s' % self.oauth_token}
         data = {'body': '%s' % self.retest_message}
         url = 'https://api.github.com/repos/' + organization + '/' + repository
-        url += '/issues/' + pull_number + '/comments' + self.auth_sufix
+        url += '/issues/' + pull_number + '/comments'
 
-        response = requests.post(url, data=json.dumps(data), headers=headers)
+        response = requests.post(url, data=json.dumps(data), headers=self.headers)
 
         return response.status_code == 201
 
     def _get_statuses(self, pull_request):
         api_status = []
         if 'statuses_url' in pull_request:
-            api_status = requests.get(pull_request['statuses_url'] + self.auth_sufix).json()
+            status_url = pull_request['statuses_url']
+            api_status = requests.get(status_url, headers=self.headers).json()
         return api_status
 
