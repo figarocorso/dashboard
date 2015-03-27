@@ -13,7 +13,7 @@ class TestConfiguration(unittest.TestCase):
 
     def test_github_repositories(self):
         repositories = self.configuration.github_repositories()
-        self.assertEqual(3, len(repositories))
+        self.assertEqual(5, len(repositories))
 
         self.assertEqual('Zentyal', repositories[0]['organization'])
         self.assertEqual('sogo', repositories[1]['repository'])
