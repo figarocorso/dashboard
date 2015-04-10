@@ -76,6 +76,7 @@ class GitHubParser:
                 status['date'] = api_status['created_at'] if 'created_at' in api_status else ""
                 status['date'] = status['date'].replace('T', ' ');
                 status['date'] = status['date'][:-4]
+                status['context'] = api_status['context']
 
                 statuses.append(status)
 
@@ -101,8 +102,13 @@ class GitHubParser:
         result = 'build-success' if len(pull_request['statuses']) else 'build-none'
         result += ' build-active ' if pull_request['active'] else ''
 
-        if len(pull_request['statuses']):
-            if pull_request['statuses'][0]['state'] == 'failure':
+        result_by_context = {}
+        for status in pull_request['statuses']:
+          if status['context'] not in result_by_context.keys():
+              result_by_context[status['context']] = status['state']
+
+        for status_result in result_by_context.values():
+            if status_result == 'failure':
                 result = result.replace('success', 'failure')
 
         return result
