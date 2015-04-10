@@ -36,7 +36,7 @@
                     <div class="pull-request-status" id="{{pull_request['number']}}-status">
                     <strong>Status ( {{ pull_request['statuses'] | length }} )</strong>
                     <ul> {% for status in pull_request['statuses'] %}
-                        <li>[{{ status['date'] }}] {{ status['description'] }}: <a title="Show Jenkins build information [new window]" href="{{ status['url'] }}" target="_blank">{{ status['state'] }}</a></li>
+                        <li>[{{ status['date'] }}] {{ status['context'] }}: <a title="Show Jenkins build information [new window]" href="{{ status['url'] }}" target="_blank">{{ status['state'] }}</a></li>
                     {% endfor %} </ul>
                     </div> <!-- pull-request-status -->
                 </div>
