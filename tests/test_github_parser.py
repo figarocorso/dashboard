@@ -23,3 +23,43 @@ class TestGithubParser(unittest.TestCase):
     def test_build_state(self):
         pull = self.github_parser.get_pull_requests().values()[0]
         self.assertEqual('build-success', pull['build_state'])
+
+    def test_statuses_active(self):
+        statuses, active = self.github_parser._statuses(test_data.fake_good_status_data)
+        self.assertEqual(False, active)
+
+    def test_statuses_num_status(self):
+        statuses, active = self.github_parser._statuses(test_data.fake_failed_status_data)
+        self.assertEqual(4,len(statuses))
+
+    def test_statuses_num_status_true(self):
+        statuses, active = self.github_parser._statuses(test_data.fake_good_status_data)
+        self.assertEqual(7,len(statuses))
+
+    def test_build_state_should_fail_but_last_one_is_good(self):
+        statuses, active = self.github_parser._statuses(test_data.fake_tricky_status_data)
+        pull_request_dict = {}
+        pull_request_dict['statuses'] = statuses
+        pull_request_dict['active'] = active
+        self.assertEqual('build-failure',self.github_parser._build_state(pull_request_dict))
+
+    def test_build_state_should_pass(self):
+        statuses, active = self.github_parser._statuses(test_data.fake_good_status_data)
+        pull_request_dict = {}
+        pull_request_dict['statuses'] = statuses
+        pull_request_dict['active'] = active
+        self.assertEqual('build-success',self.github_parser._build_state(pull_request_dict))
+
+    def test_build_state_should_fail(self):
+        statuses, active = self.github_parser._statuses(test_data.fake_failed_status_data)
+        pull_request_dict = {}
+        pull_request_dict['statuses'] = statuses
+        pull_request_dict['active'] = active
+        self.assertEqual('build-failure',self.github_parser._build_state(pull_request_dict))
+
+    def test_build_state_should_work_if_no_status(self):
+        statuses, active = self.github_parser._statuses(test_data.fake_failed_status_data)
+        pull_request_dict = {}
+        pull_request_dict['statuses'] = []
+        pull_request_dict['active'] = active
+        self.assertEqual('build-none',self.github_parser._build_state(pull_request_dict))
