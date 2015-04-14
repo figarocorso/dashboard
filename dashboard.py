@@ -16,7 +16,6 @@ class ModulesInfo:
     @classmethod
     def auto_updater(self):
         configuration = ConfigurationParser('dashboard.conf')
-        Timer(configuration.refresh_rate(), self.auto_updater).start()
         now = datetime.now()
         self.last_update = str(now.hour).zfill(2) + ":" + str(now.minute % 60).zfill(2)
 
@@ -48,6 +47,9 @@ class ModulesInfo:
         repo_path = configuration.zentyal_repo_path()
         zentyal_git = ZentyalGitHelper(repo_path, self.pullrequests)
         self.pending_packages = zentyal_git.get_pending_packages()
+
+        # Launch next data update
+        Timer(configuration.refresh_rate(), self.auto_updater).start()
 
 
 
